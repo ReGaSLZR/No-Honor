@@ -51,8 +51,7 @@ namespace ReGaSLZR
                 .AddTo(this);
 
             connectionGetter.IsConnected()
-                .Subscribe(isConnected => 
-                    Debug.LogWarning($"{GetType().Name} Is Connected: {isConnected}"))
+                .Subscribe(isConnected => Debug.Log($"Is Connected: {isConnected}"))
                 .AddTo(this);
 
             connectionGetter.GetPlayersInMatch()

@@ -44,7 +44,7 @@ namespace ReGaSLZR
 
         public void Disconnect()
         {
-            Debug.Log($"{GetType().Name} Disconnecting from match to restart from scratch. Ignore any disconnection error after this log!! :)");
+            Debug.Log($"{GetType().Name} Disconnecting from match to restart from scratch." + $" Ignore any potential disconnection error log after this log!! :)");
             rPlayers.Value = new List<PlayerModel>();
             PhotonNetwork.Disconnect();
         }
@@ -80,8 +80,9 @@ namespace ReGaSLZR
         {
             RefreshIsHostStatus();
             var players = PhotonNetwork.CurrentRoom.Players.Values;
-            Debug.Log($"UpdatePlayers count is: {players.Count}");
+            Debug.Log($"{GetType().Name} UpdatePlayers: Count is: {players.Count}");
             rPlayers.Value.Clear();
+
             rIsConnected.Value = PhotonNetwork.IsConnected;
 
             if (players.Count == 0)
@@ -105,7 +106,7 @@ namespace ReGaSLZR
 
         public override void OnCreatedRoom()
         {
-            Debug.Log($"OnCreatedRoom");
+            Debug.Log($"{GetType().Name} OnCreatedRoom");
 
             //NOTE: No need for this. Photon makes the Player auto-join their newly created room.
             //PhotonNetwork.JoinRoom(rMatchCode.Value); 
@@ -114,19 +115,19 @@ namespace ReGaSLZR
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
             //todo
-            Debug.Log($"OnCreateRoomFailed '{rMatchCode.Value}' count is: {message}");
+            Debug.Log($"{GetType().Name} OnCreateRoomFailed '{rMatchCode.Value}': {message}");
         }
 
         public override void OnJoinedRoom()
         {
-            Debug.Log($"OnJoinedRoom");
+            Debug.Log($"{GetType().Name} OnJoinedRoom");
             UpdatePlayers();
         }
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             //todo
-            Debug.Log($"OnJoinRoomFailed '{rMatchCode.Value}' count is: {message}");
+            Debug.Log($"OnJoinRoomFailed '{rMatchCode.Value}': {message}");
         }
 
         public override void OnDisconnected(DisconnectCause cause)

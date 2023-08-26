@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ReGaSLZR
 {
 
-    public class LobbyView : MonoBehaviour
+    public class LobbyMaster : MonoBehaviour
     {
         
 

@@ -11,6 +11,13 @@ namespace ReGaSLZR
     public class CharacterMovement : MonoBehaviour
     {
 
+        #region Constants
+
+        private const float MIN_CALIBRATION = 0f;
+        private const float MAX_CALIBRATION = 10f;
+
+        #endregion //Constants
+
         #region Inspector Fields
 
         [Header("Components")]
@@ -41,21 +48,18 @@ namespace ReGaSLZR
         [Header("Calibrations")]
 
         [SerializeField]
+        [Range(MIN_CALIBRATION, MAX_CALIBRATION)]
         private float movementSpeed = 1f;
 
         [SerializeField]
+        [Range(MIN_CALIBRATION, MAX_CALIBRATION)]
         private float jumpFallMultiplier = 1f;
 
         [SerializeField]
+        [Range(MIN_CALIBRATION, MAX_CALIBRATION)]
         private float jumpVelocity = 1f;
 
         #endregion //Inspector Fields
-
-        #region Private Fields
-
-        //private bool isGr
-
-        #endregion //Private Fields
 
         #region Unity Callbacks
 
@@ -76,6 +80,12 @@ namespace ReGaSLZR
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => isGrounded)
                 .Subscribe(_ => anima.SetBool(animBoolJump, false))
+                .AddTo(this);
+
+            groundDetector.IsTargetDetected()
+                .Where(isGrounded => !isGrounded)
+                .Where(_ => !Input.GetKeyDown(KeyCode.Space))
+                .Subscribe(_ => anima.SetBool(animBoolJump, true))
                 .AddTo(this);
 
             //jump fall - hasten with fall multiplier to prevent "floaty" default effect

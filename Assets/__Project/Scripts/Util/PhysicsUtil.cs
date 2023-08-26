@@ -3,8 +3,10 @@ using UnityEngine;
 namespace ReGaSLZR
 {
 
-    public class PhysicsUtil
+    public static class PhysicsUtil
     {
+
+        private const float DEFAULT_GRAVITY = 1f;
 
         /// <summary>
         /// Hasten the falling of a physics-influenced object by multiplying the gravity.
@@ -12,10 +14,9 @@ namespace ReGaSLZR
         /// </summary>
         /// <param name="multiplier">Has to be greater than 1 (the default gravity).</param>
         /// <returns></returns>
-        public static Vector2 GetFallVectorWithMultiplier(float multiplier)
-        {
-            return (Vector2.up * Physics2D.gravity.y * (multiplier - 1f) * Time.fixedDeltaTime);
-        }
+        public static Vector2 GetFallVectorWithMultiplier(float multiplier) 
+            => (Vector2.up * Physics2D.gravity.y * (multiplier - DEFAULT_GRAVITY) 
+                * Time.fixedDeltaTime);
 
     }
 

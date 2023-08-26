@@ -22,6 +22,9 @@ namespace ReGaSLZR
         [SerializeField]
         private SpriteRenderer spriteRenderer;
 
+        [SerializeField]
+        private TargetDetector groundDetector;
+
         [Header("Animations")]
 
         [SerializeField]
@@ -31,12 +34,28 @@ namespace ReGaSLZR
         [AnimatorParam("anima")]
         private string animBoolWalk;
 
+        [SerializeField]
+        [AnimatorParam("anima")]
+        private string animBoolJump;
+
         [Header("Calibrations")]
 
         [SerializeField]
         private float movementSpeed = 1f;
 
+        [SerializeField]
+        private float jumpFallMultiplier = 1f;
+
+        [SerializeField]
+        private float jumpVelocity = 1f;
+
         #endregion //Inspector Fields
+
+        #region Private Fields
+
+        //private bool isGr
+
+        #endregion //Private Fields
 
         #region Unity Callbacks
 
@@ -46,14 +65,45 @@ namespace ReGaSLZR
                 .Subscribe(_ => CheckMovementInput())
                 .AddTo(this);
 
+            //TODO make the keys detection better. If have more time, use new InputSystem
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(KeyCode.Space))
+                .Where(_ => groundDetector.IsTargetDetected().Value)
+                .Where(_ => !anima.GetBool(animBoolJump))
+                .Subscribe(_ => JumpUp())
+                .AddTo(this);
 
+            groundDetector.IsTargetDetected()
+                .Where(isGrounded => isGrounded)
+                .Subscribe(_ => anima.SetBool(animBoolJump, false))
+                .AddTo(this);
+
+            //jump fall - hasten with fall multiplier to prevent "floaty" default effect
+            //concept reference: "Better Jumping in Unity >> https://www.youtube.com/watch?v=7KiK0Aqtmzc
+            this.FixedUpdateAsObservable()
+                .Select(_ => rigidBody2D.velocity)
+                .Where(velocity => (velocity.y < 0))
+                .Subscribe(_ => JumpFall())
+                .AddTo(this);
         }
 
         #endregion //Unity Callbacks
 
         #region Client Impl
 
+        private void JumpUp()
+        {
+            anima.SetBool(animBoolJump, true);
+            rigidBody2D.velocity = (Vector2.up * jumpVelocity);
+        }
 
+        private void JumpFall()
+        {
+            anima.SetBool(animBoolJump, false);
+            rigidBody2D.velocity += PhysicsUtil.GetFallVectorWithMultiplier(jumpFallMultiplier);
+        }
+
+        //TODO make the keys detection better. If have more time, use new InputSystem
         private void CheckMovementInput()
         {
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))

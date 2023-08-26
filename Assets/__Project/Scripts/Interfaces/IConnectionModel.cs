@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UniRx;
-using UnityEngine.SceneManagement;
 
 namespace ReGaSLZR
 {
@@ -14,7 +13,7 @@ namespace ReGaSLZR
             void CreateAndJoinNewMatch(string playerName, string matchCode);
             void JoinExistingMatch(string playerName, string matchCode);
             void SynchLoadScene(string scene);
-            void SetRoomProperty(string key, object value);
+            void SetRoomProperty(MatchProperties key, object value);
         }
 
         public interface IGetter

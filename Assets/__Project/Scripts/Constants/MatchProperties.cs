@@ -1,9 +1,9 @@
 namespace ReGaSLZR
 {
-    public static class MatchProperties
+    public enum MatchProperties
     {
 
-        public const string BOOL_IS_LOADING = "l";
+        BOOL_IS_LOADING = 0,
 
 
     }

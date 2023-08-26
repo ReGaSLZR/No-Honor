@@ -12,16 +12,10 @@ namespace ReGaSLZR
 
     {
 
-        #region Inspector Fields
-
-        //[SerializeField]
-        //private string gameVersion;
-
-        #endregion //Inspector Fields
-
         #region Private Fields
 
         private readonly ReactiveProperty<string> rMatchCode = new ReactiveProperty<string>();
+        private readonly ReactiveProperty<string> rConnectionIssue = new ReactiveProperty<string>();
         private readonly ReactiveProperty<bool> rIsHost = new ReactiveProperty<bool>();
         private readonly ReactiveProperty<bool> rIsConnected = new ReactiveProperty<bool>();
         private readonly ReactiveProperty<List<PlayerModel>> rPlayers 
@@ -63,6 +57,7 @@ namespace ReGaSLZR
 
         public IReadOnlyReactiveProperty<bool> IsHost() => rIsHost;
         public IReadOnlyReactiveProperty<string> GetMatchCode() => rMatchCode;
+        public IReadOnlyReactiveProperty<string> GetConnectionIssue() => rConnectionIssue;
         public IReadOnlyReactiveProperty<bool> IsConnected() => rIsConnected;
         public IReadOnlyReactiveProperty<List<PlayerModel>> GetPlayersInMatch() => rPlayers;
 
@@ -114,8 +109,9 @@ namespace ReGaSLZR
 
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
-            //todo
             Debug.Log($"{GetType().Name} OnCreateRoomFailed '{rMatchCode.Value}': {message}");
+            rConnectionIssue.Value = message;
+            Disconnect();
         }
 
         public override void OnJoinedRoom()
@@ -126,8 +122,9 @@ namespace ReGaSLZR
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
-            //todo
             Debug.Log($"OnJoinRoomFailed '{rMatchCode.Value}': {message}");
+            rConnectionIssue.Value = message;
+            Disconnect();
         }
 
         public override void OnDisconnected(DisconnectCause cause)
@@ -138,7 +135,7 @@ namespace ReGaSLZR
 
         public override void OnConnectedToMaster()
         {
-            rIsConnected.SetValueAndForceNotify(true);
+            rIsConnected.SetValueAndForceNotify(PhotonNetwork.IsConnected);
 
             if (isMatchNew)
             {

@@ -19,6 +19,11 @@ namespace ReGaSLZR
         [SerializeField]
         private LobbyPlayerListView viewPlayerList;
 
+        [Space]
+
+        [SerializeField]
+        private PopUpView popUpNetworkIssue;
+
         [SerializeField]
         private GameObject viewLoading;
 
@@ -50,13 +55,18 @@ namespace ReGaSLZR
                 .Subscribe(_ => InitView())
                 .AddTo(this);
 
+            connectionGetter.GetConnectionIssue()
+                .Where(issue => !string.IsNullOrEmpty(issue))
+                .Subscribe(RestartProgressAndShowIssue)
+                .AddTo(this);
+
             connectionGetter.IsConnected()
                 .Subscribe(isConnected => Debug.Log($"Is Connected: {isConnected}"))
                 .AddTo(this);
 
-            connectionGetter.GetPlayersInMatch()
-                .AsObservable()
+            connectionGetter.GetPlayersInMatch().AsObservable()
                 .Where(_ => connectionGetter.IsConnected().Value)
+                .Where(players => players.Count > 0)
                 .Subscribe(DisplayLobbyList)
                 .AddTo(this);
         }
@@ -70,6 +80,12 @@ namespace ReGaSLZR
             viewPlayerList.SetIsDisplayed(false);
             viewLoading.gameObject.SetActive(false);
             viewStarter.SetIsDisplayed(true);
+        }
+
+        private void RestartProgressAndShowIssue(string issue)
+        {
+            InitView();
+            popUpNetworkIssue.DisplayWithText(issue);
         }
 
         private void AttemptExitMatch()

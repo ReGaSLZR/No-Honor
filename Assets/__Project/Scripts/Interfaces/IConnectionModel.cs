@@ -19,6 +19,7 @@ namespace ReGaSLZR
             IReadOnlyReactiveProperty<bool> IsConnected();
             IReadOnlyReactiveProperty<bool> IsHost();
             IReadOnlyReactiveProperty<string> GetMatchCode();
+            IReadOnlyReactiveProperty<string> GetConnectionIssue();
             IReadOnlyReactiveProperty<List<PlayerModel>> GetPlayersInMatch();
             
         }

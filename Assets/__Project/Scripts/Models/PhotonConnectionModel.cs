@@ -136,6 +136,7 @@ namespace ReGaSLZR
         public override void OnConnectedToMaster()
         {
             rIsConnected.SetValueAndForceNotify(PhotonNetwork.IsConnected);
+            Debug.Log($"{GetType().Name} Is Connected: {rIsConnected.Value}");
 
             if (isMatchNew)
             {

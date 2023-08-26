@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 using Zenject;
 
 namespace ReGaSLZR
@@ -61,7 +59,8 @@ namespace ReGaSLZR
                 .AddTo(this);
 
             connectionGetter.IsConnected()
-                .Subscribe(isConnected => Debug.Log($"Is Connected: {isConnected}"))
+                .Where(isConnected => !isConnected)
+                .Subscribe(_ => InitView())
                 .AddTo(this);
 
             connectionGetter.GetPlayersInMatch().AsObservable()

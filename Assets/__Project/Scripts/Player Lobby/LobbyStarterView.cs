@@ -50,8 +50,10 @@ namespace ReGaSLZR
             starterSubJoin.RegisterOnClose(() => starterMain.SetActive(true));
             starterSubCreate.RegisterOnClose(() => starterMain.SetActive(true));
 
-            buttonDisplaySubJoin.onClick.AddListener(() => SwitchToSubView(starterSubCreate, starterSubJoin));
-            buttonDisplaySubCreate.onClick.AddListener(() => SwitchToSubView(starterSubJoin, starterSubCreate));
+            buttonDisplaySubJoin.onClick.AddListener(() => 
+                SwitchToSubView(starterSubCreate, starterSubJoin));
+            buttonDisplaySubCreate.onClick.AddListener(() => 
+                SwitchToSubView(starterSubJoin, starterSubCreate));
         }
 
         private void Start()
@@ -63,11 +65,12 @@ namespace ReGaSLZR
 
         #region Client Impl
 
-        private void SwitchToSubView(LobbyStartPopUpView disabledView, LobbyStartPopUpView enabledView) 
+        private void SwitchToSubView(
+            LobbyStartPopUpView disabledView, LobbyStartPopUpView enabledView) 
         {
 
             disabledView.SetIsDisplayed(false);
-            disabledView.SetIsDisplayed(true);
+            enabledView.SetIsDisplayed(true);
             starterMain.SetActive(false);
         }
 

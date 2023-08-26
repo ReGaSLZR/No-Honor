@@ -74,6 +74,8 @@ namespace ReGaSLZR
             viewParent.SetActive(isDisplayed);
         }
 
+        public bool IsDisplayed() => viewParent.activeInHierarchy || viewParent.activeSelf;
+
         #endregion //Public API
 
     }

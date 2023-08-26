@@ -1405,7 +1405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3307443275749237708, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_Pivot.x
@@ -1461,15 +1461,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1490,6 +1490,10 @@ PrefabInstance:
     - target: {fileID: 8209433625828394561, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912669747939746594, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
@@ -22041,7 +22045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf6ee3aeb77625743b0c2dc66bb0ac67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameVersion: 1
 --- !u!4 &2006662983
 Transform:
   m_ObjectHideFlags: 0

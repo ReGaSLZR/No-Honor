@@ -32,12 +32,12 @@ namespace ReGaSLZR
 
         #region Public API
 
-        public void SetUp(string playerName, bool isLocalPlayer, bool isHost)
+        public void SetUp(PlayerModel player)
         {
-            textName.text = string.Concat(isHost ? prefixHost : string.Empty, playerName,
-                isLocalPlayer ? suffixLocalPlayer : string.Empty);
+            textName.text = string.Concat(player.IsHost ? prefixHost : string.Empty, 
+                player.PlayerName, player.IsLocalPlayer ? suffixLocalPlayer : string.Empty);
 
-            textName.color = isLocalPlayer ? colorHighlighted : colorNormal;
+            textName.color = player.IsLocalPlayer ? colorHighlighted : colorNormal;
         }
 
         #endregion //Public API

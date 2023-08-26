@@ -56,13 +56,12 @@ namespace ReGaSLZR
             }
         }
 
-        public void PopulateList(List<string> playerNames, 
-            int indexLocalPlayer, int indexHost)
+        public void PopulateList(List<PlayerModel> players)
         {
-            for (var x=0; x<playerNames.Count; x++)
+            foreach(var player in players)
             {
                 var newItem = Instantiate(prefabListItem, playerListParent);
-                newItem.SetUp(playerNames[x], x == indexLocalPlayer, x==indexHost);
+                newItem.SetUp(player);
             }
         }
 

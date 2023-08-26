@@ -1,8 +1,10 @@
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ReGaSLZR
 {
@@ -16,8 +18,12 @@ namespace ReGaSLZR
 
         private readonly ReactiveProperty<string> rMatchCode = new ReactiveProperty<string>();
         private readonly ReactiveProperty<string> rConnectionIssue = new ReactiveProperty<string>();
+
+        private readonly ReactiveProperty<MatchModel> rMatchModel = new ReactiveProperty<MatchModel>(new MatchModel());
+
         private readonly ReactiveProperty<bool> rIsHost = new ReactiveProperty<bool>();
         private readonly ReactiveProperty<bool> rIsConnected = new ReactiveProperty<bool>();
+
         private readonly ReactiveProperty<List<PlayerModel>> rPlayers 
             = new ReactiveProperty<List<PlayerModel>>(new List<PlayerModel>());
 
@@ -27,10 +33,7 @@ namespace ReGaSLZR
 
         #region Unity Callbacks
 
-        private void Start()
-        {
-            PhotonNetwork.AutomaticallySyncScene = true;
-        }
+        private void Start() => PhotonNetwork.AutomaticallySyncScene = true;
 
         #endregion //Unity Callbacks
 
@@ -46,16 +49,31 @@ namespace ReGaSLZR
         public void CreateAndJoinNewMatch(string playerName, string matchCode)
         {
             isMatchNew = true;
-            ConnectToRoom(playerName, matchCode);
+            EstablishConnection(playerName, matchCode);
         }
 
         public void JoinExistingMatch(string playerName, string matchCode)
         {
             isMatchNew = false;
-            ConnectToRoom(playerName, matchCode);
+            EstablishConnection(playerName, matchCode);
+        }
+
+        public void SynchLoadScene(string scene) => PhotonNetwork.LoadLevel(scene);
+        public void SetRoomProperty(string key, object value)
+        {  
+            if (!rIsHost.Value)
+            {
+                Debug.Log($"{GetType().Name}.SetSceneLoadingStatus() not allowed because localPlayer is NOT the Host.");
+                return;
+            }
+
+            var props = PhotonNetwork.CurrentRoom.CustomProperties;
+            props[key] = value;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(props);
         }
 
         public IReadOnlyReactiveProperty<bool> IsHost() => rIsHost;
+        public IReadOnlyReactiveProperty<MatchModel> GetMatchModel() => rMatchModel;
         public IReadOnlyReactiveProperty<string> GetMatchCode() => rMatchCode;
         public IReadOnlyReactiveProperty<string> GetConnectionIssue() => rConnectionIssue;
         public IReadOnlyReactiveProperty<bool> IsConnected() => rIsConnected;
@@ -63,7 +81,17 @@ namespace ReGaSLZR
 
         #endregion //Connection Model OVERRIDES
 
-        private void ConnectToRoom(string playerName, string matchCode)
+        private RoomOptions CreateFreshRoomOptions()
+        {
+            var roomOptions = new RoomOptions();
+            roomOptions.CustomRoomProperties = new Hashtable();
+            roomOptions.CustomRoomProperties.Add(MatchProperties.BOOL_IS_LOADING, false);
+            //TODO add more props here...
+
+            return roomOptions;
+        }
+
+        private void EstablishConnection(string playerName, string matchCode)
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
             PhotonNetwork.ConnectUsingSettings();
@@ -98,6 +126,21 @@ namespace ReGaSLZR
         private void RefreshIsHostStatus() => rIsHost.Value = PhotonNetwork.IsMasterClient;
 
         #region Photon Overrides
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            Debug.Log($"{GetType().Name} OnRoomPropertiesUpdate");
+
+            var matchProps = new MatchModel();
+            var currProps = PhotonNetwork.CurrentRoom.CustomProperties;
+            
+            matchProps.isSceneLoading = currProps.TryGetValue(
+                MatchProperties.BOOL_IS_LOADING, out var isLoading) 
+                ? (bool)isLoading : false;
+            //TODO add more... (force update props)
+
+            rMatchModel.SetValueAndForceNotify(matchProps);
+        }
 
         public override void OnCreatedRoom()
         {
@@ -140,7 +183,7 @@ namespace ReGaSLZR
 
             if (isMatchNew)
             {
-                PhotonNetwork.CreateRoom(rMatchCode.Value);
+                PhotonNetwork.CreateRoom(rMatchCode.Value, CreateFreshRoomOptions());
             }
             else
             {

@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
+using UnityEngine.SceneManagement;
 
-public class SceneModel : MonoBehaviour
+namespace ReGaSLZR
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [System.Serializable]
+    public class SceneModel
     {
-        
+
+        #region Inspector Fields
+
+        [SerializeField]
+        [Scene]
+        private string sceneLobby;
+
+        [SerializeField]
+        [Scene]
+        private string sceneGameplay;
+
+        #endregion //Inspector Fields
+
+        #region Accessors
+
+        public string SceneLobby => sceneLobby;
+
+        public string SceneGameplay => sceneGameplay;
+
+        #endregion //Accessors
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

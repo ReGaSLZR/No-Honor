@@ -79,14 +79,13 @@ namespace ReGaSLZR
         {
             starterSubJoin.SetIsDisplayed(false);
             starterSubCreate.SetIsDisplayed(false);
-            SetIsDisplayed(true);
+            starterMain.SetActive(true);
         }
 
         public void SetIsDisplayed(bool isDisplayed)
         {
             if (isDisplayed)
             {
-                starterMain.SetActive(isDisplayed);
                 InitView();
             }
 

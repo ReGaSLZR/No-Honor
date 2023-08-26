@@ -12,8 +12,8 @@ namespace ReGaSLZR
 
         #region Inspector Fields
 
-        [SerializeField]
-        private string gameVersion;
+        //[SerializeField]
+        //private string gameVersion;
 
         #endregion //Inspector Fields
 

@@ -87,6 +87,7 @@ namespace ReGaSLZR
             if (isDisplayed)
             {
                 starterMain.SetActive(isDisplayed);
+                InitView();
             }
 
             canvasStarter.gameObject.SetActive(isDisplayed);

@@ -15,6 +15,11 @@ namespace ReGaSLZR
         [SerializeField]
         private GameObject fxOnPickup;
 
+        [Header("Runtime set")]
+
+        [SerializeField]
+        private PlayerHUD hudView;
+
         #endregion //Inspector Fields
 
         private ReactiveProperty<WeaponAsPickable> rWeaponPicked = new ReactiveProperty<WeaponAsPickable>();
@@ -44,6 +49,8 @@ namespace ReGaSLZR
 
         public IReadOnlyReactiveProperty<WeaponAsPickable> GetWeaponPicked() => rWeaponPicked;
 
+        public void SetUp(PlayerHUD hudView) => this.hudView = hudView;
+
         public void ClearWeapon() => rWeaponPicked.Value = null;
 
         #endregion //Public API
@@ -54,6 +61,13 @@ namespace ReGaSLZR
         {
             fxOnPickup.transform.position = weapon.gameObject.transform.position;
             fxOnPickup.SetActive(true);
+
+            if (hudView != null)
+            {
+                hudView.UpdateWeapon(weapon.Type);
+            }
+
+            weapon.gameObject.SetActive(false);
         }
 
         #endregion //Client Impl

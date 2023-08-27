@@ -87,12 +87,13 @@ namespace ReGaSLZR
         public Weapon WeaponType => weaponType;
         public int DamageValue => damage;
         public bool IsDamageOverTime => isDamageOverTime;
+        public bool IsInUse => (gameObject.activeInHierarchy || gameObject.activeSelf);
 
         public IReactiveProperty<bool> IsTargetDetected => rIsTargetDetected;
 
         public bool AttemptUse()
         {
-            if (gameObject.activeInHierarchy || gameObject.activeSelf)
+            if (IsInUse)
             {
                 return false;
             }

@@ -470,6 +470,7 @@ GameObject:
   - component: {fileID: 7652384364750723438}
   - component: {fileID: 7652384364750723427}
   - component: {fileID: 7652384364750723426}
+  - component: {fileID: 4389018451890831435}
   - component: {fileID: 7652384364750723429}
   m_Layer: 0
   m_Name: Character
@@ -570,6 +571,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fxOnPickup: {fileID: 7652384364842750316}
+--- !u!114 &4389018451890831435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652384364750723439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e9e18aed9b55d49acc828b9f87f271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponsOnDemand:
+  - {fileID: 7652384365755951668}
+  - {fileID: 7652384364915736229}
+  - {fileID: 7652384366096672465}
+  hudView: {fileID: 0}
 --- !u!114 &7652384364750723429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,10 +605,7 @@ MonoBehaviour:
   movt: {fileID: 7652384364750723427}
   statsView: {fileID: 7652384365485592877}
   itemPicker: {fileID: 7652384364750723426}
-  weaponsOnDemand:
-  - {fileID: 7652384365755951668}
-  - {fileID: 7652384364915736229}
-  - {fileID: 7652384366096672465}
+  itemUser: {fileID: 4389018451890831435}
   hudView: {fileID: 0}
 --- !u!1 &7652384364881784223
 GameObject:

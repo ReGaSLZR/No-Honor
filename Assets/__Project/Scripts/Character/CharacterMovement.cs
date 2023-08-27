@@ -74,7 +74,32 @@ namespace ReGaSLZR
 
         #endregion //Inspector Fields
 
+        private CompositeDisposable controlledDisposables = new CompositeDisposable();
+
         #region Unity Callbacks
+
+        private void OnEnable()
+        {
+            this.FixedUpdateAsObservable()
+                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Subscribe(_ => CheckMovementInput())
+                .AddTo(controlledDisposables);
+
+            //TODO make the keys detection better. If have more time, use new InputSystem
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(KeyCode.Space))
+                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => groundDetector.IsTargetDetected().Value)
+                .Where(_ => !anima.GetBool(animBoolJump))
+                .Subscribe(_ => JumpUp())
+                .AddTo(controlledDisposables);
+        }
+
+        private void OnDisable()
+        {
+            controlledDisposables.Dispose();
+            controlledDisposables.Clear();
+        }
 
         private void Start()
         {
@@ -87,20 +112,6 @@ namespace ReGaSLZR
             statsView.IsPlayerDead()
                 .Where(dead => dead)
                 .Subscribe(_ => anima.SetTrigger(animTriggerDead))
-                .AddTo(this);
-
-            this.FixedUpdateAsObservable()
-                .Where(_ => !statsView.IsPlayerDead().Value)
-                .Subscribe(_ => CheckMovementInput())
-                .AddTo(this);
-
-            //TODO make the keys detection better. If have more time, use new InputSystem
-            this.UpdateAsObservable()
-                .Where(_ => Input.GetKeyDown(KeyCode.Space))
-                .Where(_ => !statsView.IsPlayerDead().Value)
-                .Where(_ => groundDetector.IsTargetDetected().Value)
-                .Where(_ => !anima.GetBool(animBoolJump))
-                .Subscribe(_ => JumpUp())
                 .AddTo(this);
 
             groundDetector.IsTargetDetected()
@@ -129,12 +140,6 @@ namespace ReGaSLZR
         #endregion //Unity Callbacks
 
         #region Client Impl
-
-        private void Die()
-        {
-            anima.SetTrigger(animTriggerDead);
-            //anima.Sto
-        }
 
         private void Stagger()
         {

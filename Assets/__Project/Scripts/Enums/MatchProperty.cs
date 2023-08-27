@@ -1,6 +1,6 @@
 namespace ReGaSLZR
 {
-    public enum MatchProperties
+    public enum MatchProperty
     {
 
         BOOL_IS_LOADING = 0,

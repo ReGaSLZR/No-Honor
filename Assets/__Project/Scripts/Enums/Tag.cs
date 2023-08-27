@@ -4,15 +4,15 @@ namespace ReGaSLZR
     /// <summary>
     /// All values here must reflect the values in Tags.asset UnityEditor file
     /// </summary>
-    public enum Tags
+    public enum Tag
     {
 
         Untagged = 0,
 
         Terrain = 1,
-        Wall = 2,
+        Item = 2,
 
-        Character = 4,
+        Player = 4,
 
     }
 

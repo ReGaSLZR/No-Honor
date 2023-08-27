@@ -59,7 +59,7 @@ namespace ReGaSLZR
         }
 
         public void SynchLoadScene(string scene) => PhotonNetwork.LoadLevel(scene);
-        public void SetRoomProperty(MatchProperties key, object value)
+        public void SetRoomProperty(MatchProperty key, object value)
         {  
             if (!rIsHost.Value)
             {
@@ -86,7 +86,7 @@ namespace ReGaSLZR
             var roomOptions = new RoomOptions();
             roomOptions.CustomRoomProperties = new Hashtable();
             roomOptions.CustomRoomProperties.Add(
-                MatchProperties.BOOL_IS_LOADING.ToString(), false);
+                MatchProperty.BOOL_IS_LOADING.ToString(), false);
             //TODO add more props here...
 
             return roomOptions;
@@ -136,7 +136,7 @@ namespace ReGaSLZR
             var currProps = PhotonNetwork.CurrentRoom.CustomProperties;
             
             matchProps.isSceneLoading = currProps.TryGetValue(
-                MatchProperties.BOOL_IS_LOADING.ToString(), out var isLoading) 
+                MatchProperty.BOOL_IS_LOADING.ToString(), out var isLoading) 
                 ? (bool)isLoading : false;
             //TODO add more... (force update props)
 

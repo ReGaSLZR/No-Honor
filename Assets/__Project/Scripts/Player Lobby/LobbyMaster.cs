@@ -92,7 +92,7 @@ namespace ReGaSLZR
 
         private void OnStartGame()
         {
-            connectionSetter.SetRoomProperty(MatchProperties.BOOL_IS_LOADING, true);
+            connectionSetter.SetRoomProperty(MatchProperty.BOOL_IS_LOADING, true);
             connectionSetter.SynchLoadScene(sceneModel.SceneGameplay);
         }
 

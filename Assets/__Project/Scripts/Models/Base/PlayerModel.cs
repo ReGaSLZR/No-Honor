@@ -14,17 +14,13 @@ namespace ReGaSLZR
 
         #region Private Fields
 
-        [UnityEngine.SerializeField]
         private bool isLocalPlayer;
-        [UnityEngine.SerializeField]
         private bool isHost;
-        [UnityEngine.SerializeField]
         private string playerName;
-        [UnityEngine.SerializeField]
         private string playerId;
 
-        [UnityEngine.SerializeField]
         private int health;
+        private Weapon weapon;
 
         #endregion //Private Fields
 
@@ -36,6 +32,7 @@ namespace ReGaSLZR
         public string PlayerId => playerId;
 
         public int Health => health;
+        public Weapon Weapon => weapon;
 
         #endregion //Accessors
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Terrain
   - FxTemporaire
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -54,6 +55,9 @@ TagManager:
     locked: 0
   - name: FX
     uniqueID: 285089145
+    locked: 0
+  - name: Item
+    uniqueID: 418316777
     locked: 0
   - name: Character UI
     uniqueID: 853624957

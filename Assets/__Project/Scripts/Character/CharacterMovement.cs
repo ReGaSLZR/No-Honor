@@ -74,8 +74,8 @@ namespace ReGaSLZR
 
         private void Start()
         {
-            statsView.IsHealthDiminished()
-                .Where(isDiminished => isDiminished)
+            statsView.GetHealthDiminished()
+                .Where(dim => dim < 0)
                 .Subscribe(_ => Stagger())
                 .AddTo(this);
 

@@ -1,3 +1,5 @@
+using NaughtyAttributes;
+using System.Collections;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -20,6 +22,12 @@ namespace ReGaSLZR
         private TextMeshProUGUI textCharacterName;
 
         [SerializeField]
+        private TextMeshProUGUI textHealthChange;
+
+        [SerializeField]
+        private RectTransform rectHealthChange;
+
+        [SerializeField]
         private Slider sliderHealth;
 
         [SerializeField]
@@ -31,20 +39,41 @@ namespace ReGaSLZR
         [Tooltip("Arrange from lowest to highest.")]
         private Color[] colorHealthStatus;
 
+        [Space]
+
         [SerializeField]
         private Color colorNameLocal;
 
         [SerializeField]
         private Color colorNameEnemy;
 
+        [Space]
+
+        [SerializeField]
+        private Color colorHealthDamage;
+
+        [SerializeField]
+        private Color colorHealthRegen;
+
+        [Space]
+
         [SerializeField]
         private string localCharacterName;
+
+        [SerializeField]
+        [MinMaxSlider(-1f, 1f)]
+        private Vector2 healthChangePositionY;
+
+        [SerializeField]
+        [Range(0.5f, 2f)]
+        private float healthChangeLerpDuration;
 
         #endregion //Inspector Fields
 
         #region Private Fields
 
-        private ReactiveProperty<bool> rIsHealthDiminished = new ReactiveProperty<bool>(false);
+        private ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
+        private float posX;
 
         #endregion //Private Fields
 
@@ -52,8 +81,27 @@ namespace ReGaSLZR
 
         private void Awake()
         {
+            posX = rectHealthChange.localPosition.x;
+
             sliderHealth.minValue = PlayerModel.PLAYER_HEALTH_DEAD;
-            sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;
+            sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;   
+        }
+
+        private void Start()
+        {
+            rHealthChange
+                .Subscribe(AnimateHealthChangeFX)
+                .AddTo(this);
+
+            textHealthChange.CrossFadeAlpha(0f, 0f, true);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                UpdateHealth((int)sliderHealth.value - 4);
+            }
         }
 
         #endregion //Unity Callbacks
@@ -71,11 +119,42 @@ namespace ReGaSLZR
             UpdateHealth(playerModel.Health);
         }
 
-        public IReadOnlyReactiveProperty<bool> IsHealthDiminished() => rIsHealthDiminished;
+        public IReadOnlyReactiveProperty<int> GetHealthDiminished() => rHealthChange;
 
         #endregion //Public API
 
         #region Client Impl
+
+        private void AnimateHealthChangeFX(int healthChange)
+        {
+            StopAllCoroutines();
+            StartCoroutine(C_AnimateHealthChangeFX(healthChange));
+        }
+
+        private IEnumerator C_AnimateHealthChangeFX(int healthChange)
+        {
+            
+            var timeElapsed = 0f;
+
+            textHealthChange.color = (healthChange>=0) ? colorHealthRegen : colorHealthDamage;
+            textHealthChange.CrossFadeAlpha(1f, 0f, true);
+            textHealthChange.text = healthChange.ToString();
+
+            rectHealthChange.localPosition = new Vector2(posX, healthChangePositionY.x);
+            textHealthChange.CrossFadeAlpha(0f, healthChangeLerpDuration, true);
+
+            while (timeElapsed < healthChangeLerpDuration)
+            {
+                rectHealthChange.localPosition = new Vector2(posX, 
+                    Mathf.Lerp(healthChangePositionY.x, healthChangePositionY.y,
+                    timeElapsed / healthChangeLerpDuration));
+                yield return null;
+                timeElapsed += Time.deltaTime;
+            }
+
+            rectHealthChange.localPosition = new Vector2(posX, healthChangePositionY.y);
+            textHealthChange.CrossFadeAlpha(0f, 0f, true);
+        }
 
         private void UpdateHealth(int newHealth)
         {
@@ -85,7 +164,9 @@ namespace ReGaSLZR
             sliderHealth.value = newHealthValue;
             sliderFill.color = GetColor(newHealthValue);
 
-            rIsHealthDiminished.SetValueAndForceNotify(newHealthValue < presentHealth);
+            var dim = Mathf.Clamp(presentHealth - newHealthValue, 
+                0, PlayerModel.PLAYER_HEALTH_MAX);
+            rHealthChange.SetValueAndForceNotify(-dim);
         }
 
         private Color GetColor(int value)

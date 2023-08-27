@@ -15,7 +15,7 @@ namespace ReGaSLZR
         [Space]
 
         [SerializeField]
-        private CharacterBrain prefabCharBrain;
+        private Character prefabCharBrain;
 
         #region Unity Callbacks
 

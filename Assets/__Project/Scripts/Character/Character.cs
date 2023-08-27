@@ -7,7 +7,7 @@ using UniRx.Triggers;
 namespace ReGaSLZR
 {
 
-    public class CharacterBrain : MonoBehaviour
+    public class Character : MonoBehaviour
     {
 
         #region Inspector Fields

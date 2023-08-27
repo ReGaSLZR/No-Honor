@@ -102,16 +102,16 @@ namespace ReGaSLZR
             return true;
         }
 
-        public List<CharacterBrain> GetTargets()
+        public List<Character> GetTargets()
         {
-            var targets = new List<CharacterBrain>();
+            var targets = new List<Character>();
 
             foreach (var detector in targetDetectors)
             {
                 var genTargets = detector.GetTargets();
                 foreach (var gen in genTargets)
                 {
-                    var isChar = gen.gameObject.TryGetComponent<CharacterBrain>(
+                    var isChar = gen.gameObject.TryGetComponent<Character>(
                         out var brain);
                     if (isChar)
                     {

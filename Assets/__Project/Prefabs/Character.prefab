@@ -72,6 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludedObjects:
   - {fileID: 7652384364750723438}
+  hasDetectionOnStay: 1
   targetTags:
   - Player
   isLockedToFirstSingleTarget: 0
@@ -381,6 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludedObjects:
   - {fileID: 7652384364750723438}
+  hasDetectionOnStay: 1
   targetTags:
   - Player
   isLockedToFirstSingleTarget: 0
@@ -450,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludedObjects:
   - {fileID: 7652384364750723438}
+  hasDetectionOnStay: 0
   targetTags:
   - Player
   isLockedToFirstSingleTarget: 1
@@ -823,8 +826,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 2
-  damage: 15
-  isDamageOverTime: 0
+  damage: 4
+  isDamageOverTime: 1
+  damageOverTimeInterval: 0.25
   targetDetectors:
   - {fileID: 7652384364931026871}
   - {fileID: 7652384364259663989}
@@ -901,6 +905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   excludedObjects:
   - {fileID: 7652384364750723438}
+  hasDetectionOnStay: 1
   targetTags:
   - Player
   isLockedToFirstSingleTarget: 0
@@ -1351,6 +1356,7 @@ MonoBehaviour:
   weaponType: 1
   damage: 25
   isDamageOverTime: 0
+  damageOverTimeInterval: 0.5
   targetDetectors:
   - {fileID: 7652384364714031143}
   spriteForDirection: {fileID: 7652384364881784208}
@@ -1544,6 +1550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excludedObjects: []
+  hasDetectionOnStay: 0
   targetTags:
   - Terrain
   isLockedToFirstSingleTarget: 1
@@ -1636,8 +1643,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 4
-  damage: 8
+  damage: 16
   isDamageOverTime: 1
+  damageOverTimeInterval: 0.8
   targetDetectors:
   - {fileID: 7652384364552875371}
   activeDuration: 7

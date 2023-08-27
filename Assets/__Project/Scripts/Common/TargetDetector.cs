@@ -17,6 +17,9 @@ namespace ReGaSLZR
         private List<Collider2D> excludedObjects;
 
         [SerializeField]
+        private bool hasDetectionOnStay;
+
+        [SerializeField]
         [Tag]
         private List<string> targetTags;
 
@@ -130,6 +133,21 @@ namespace ReGaSLZR
                 .Subscribe(otherCollider2D => ClearTargets())
                 .AddTo(disposables);
 
+            if (hasDetectionOnStay)
+            {
+                this.OnTriggerStay2DAsObservable()
+                    .Where(otherCollider2D => IsNotExcludedObject(otherCollider2D))
+                    .Where(otherCollider2D => IsMatchingTag(otherCollider2D.tag))
+                    .Subscribe(otherCollider2D => CaptureTargets(otherCollider2D, true))
+                    .AddTo(disposables);
+
+                this.OnCollisionStay2DAsObservable()
+                    .Where(collision => IsNotExcludedObject(collision.collider))
+                    .Where(collision => IsMatchingTag(collision.gameObject.tag))
+                    .Subscribe(collision => CaptureTargets(collision.collider, true))
+                    .AddTo(disposables);
+            }
+
             //self-check list of targets for null items, then reset m_isTargetDetected.Value
             Observable.Interval(System.TimeSpan.FromSeconds(1))
                 .Where(_ => isTargetDetected.Value)
@@ -163,12 +181,12 @@ namespace ReGaSLZR
                 coll2D.offset.y);
         }
 
-        private void CaptureTargets(Collider2D targetCollider)
+        private void CaptureTargets(Collider2D targetCollider, bool isForced = false)
         {
-            if (!isTargetDetected.Value)
+            if (isForced || !isTargetDetected.Value)
             {
                 RefreshTargets(targetCollider);
-                isTargetDetected.Value = true;
+                isTargetDetected.SetValueAndForceNotify(true);
             }
         }
 

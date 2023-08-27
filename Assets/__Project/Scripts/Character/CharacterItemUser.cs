@@ -23,6 +23,7 @@ namespace ReGaSLZR
 
         private CharacterItemPicker itemPicker;
         private AWeaponAsUsable cachedWeaponOnUse;
+        private float cachedWeaponUseTimeEnd;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -40,12 +41,6 @@ namespace ReGaSLZR
                 .Where(_ => cachedWeaponOnUse == null || !cachedWeaponOnUse.IsInUse)
                 .Subscribe(OnUseWeapon)
                 .AddTo(this);
-
-            //this.UpdateAsObservable()
-            //    .Where(_ => cachedWeaponOnUse != null)
-            //    .Where(_ => cachedWeaponOnUse.IsTargetDetected().Value)
-            //    .Subscribe(_ => DamageWeaponVictims())
-            //    .AddTo(this);
         }
 
         #endregion //Unity Callbacks
@@ -79,13 +74,11 @@ namespace ReGaSLZR
             var isUsed = weaponToUse.AttemptUse();
             if (isUsed)
             {
+                cachedWeaponUseTimeEnd = 0f;
                 RefreshDisposable();
 
                 cachedWeaponOnUse = weaponToUse;
-                cachedWeaponOnUse.IsTargetDetected()
-                    .Where(det => det)
-                    .Subscribe(_ => DamageWeaponVictims())
-                    .AddTo(disposables);
+                SetUpWeponTargetDetection();
 
                 hudView.UpdateWeapon(Weapon.None);
                 itemPicker.ClearWeapon();
@@ -97,6 +90,22 @@ namespace ReGaSLZR
             }
         }
 
+        private void SetUpWeponTargetDetection()
+        {
+            cachedWeaponOnUse.IsTargetDetected()
+                .Where(det => det)
+                .Where(_ => !cachedWeaponOnUse.IsDamageOverTime)
+                .Subscribe(_ => DamageWeaponVictims())
+                .AddTo(disposables);
+
+            cachedWeaponOnUse.IsTargetDetected()
+                .Where(det => det)
+                .Where(_ => cachedWeaponOnUse.IsDamageOverTime)
+                .Where(_ => cachedWeaponUseTimeEnd < Time.time)
+                .Subscribe(_ => DamageWeaponVictims())
+                .AddTo(disposables);
+        }
+
         private void RefreshDisposable()
         {
             disposables.Dispose();
@@ -106,8 +115,9 @@ namespace ReGaSLZR
 
         private void DamageWeaponVictims()
         {
-            Debug.Log($"DamageWeaponVictims called.");
+            Debug.Log($"DamageWeaponVictims called.", gameObject);
             var victims = cachedWeaponOnUse.GetTargets();
+            cachedWeaponUseTimeEnd = cachedWeaponOnUse.DamageOverTimeInterval + Time.time;
 
             if (victims.Count == 0)
             {

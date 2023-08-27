@@ -2,6 +2,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System.Collections.Generic;
+using NaughtyAttributes;
 
 namespace ReGaSLZR
 {
@@ -22,6 +23,10 @@ namespace ReGaSLZR
 
         [SerializeField]
         private bool isDamageOverTime;
+
+        [SerializeField]
+        [EnableIf("isDamageOverTime")]
+        private float damageOverTimeInterval = 0.5f;
 
         [Space]
 
@@ -87,6 +92,7 @@ namespace ReGaSLZR
         public Weapon WeaponType => weaponType;
         public int DamageValue => damage;
         public bool IsDamageOverTime => isDamageOverTime;
+        public float DamageOverTimeInterval => damageOverTimeInterval;
         public bool IsInUse => (gameObject.activeInHierarchy || gameObject.activeSelf);
 
         public IReactiveProperty<bool> IsTargetDetected() => rIsTargetDetected;

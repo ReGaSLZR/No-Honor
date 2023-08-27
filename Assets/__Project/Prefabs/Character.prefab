@@ -367,7 +367,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.54
+  m_Radius: 1.5
 --- !u!114 &7652384364552875371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   targetTags:
   - Player
   isLockedToFirstSingleTarget: 0
-  detectionRange: 5
+  detectionRange: 3
   isAdjustingHorizontally: 0
   spriteRenderer: {fileID: 0}
   offsetHorizontal: 1
@@ -1645,7 +1645,7 @@ MonoBehaviour:
   weaponType: 4
   damage: 16
   isDamageOverTime: 1
-  damageOverTimeInterval: 0.8
+  damageOverTimeInterval: 0.5
   targetDetectors:
   - {fileID: 7652384364552875371}
   activeDuration: 7

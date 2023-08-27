@@ -74,7 +74,6 @@ namespace ReGaSLZR
             var isUsed = weaponToUse.AttemptUse();
             if (isUsed)
             {
-                cachedWeaponUseTimeEnd = 0f;
                 RefreshDisposable();
 
                 cachedWeaponOnUse = weaponToUse;
@@ -86,24 +85,28 @@ namespace ReGaSLZR
             else
             {
                 Debug.LogWarning($"{GetType().Name}.OnUseWeapon() '{weapon.Type}'" +
-                    $" still in use. Wait for its duration to be over before you can use it.");
+                    $" still in use. Wait for its duration to be over.");
             }
         }
 
         private void SetUpWeponTargetDetection()
         {
+            cachedWeaponUseTimeEnd = 0f;
+
             cachedWeaponOnUse.IsTargetDetected()
                 .Where(det => det)
                 .Where(_ => !cachedWeaponOnUse.IsDamageOverTime)
                 .Subscribe(_ => DamageWeaponVictims())
                 .AddTo(disposables);
 
-            cachedWeaponOnUse.IsTargetDetected()
-                .Where(det => det)
-                .Where(_ => cachedWeaponOnUse.IsDamageOverTime)
-                .Where(_ => cachedWeaponUseTimeEnd < Time.time)
-                .Subscribe(_ => DamageWeaponVictims())
+            if (cachedWeaponOnUse.IsDamageOverTime)
+            {
+                this.UpdateAsObservable()
+                    .Where(_ => cachedWeaponOnUse.IsTargetDetected().Value)
+                    .Where(_ => cachedWeaponUseTimeEnd < Time.time)
+                    .Subscribe(_ => DamageWeaponVictims())
                 .AddTo(disposables);
+            }
         }
 
         private void RefreshDisposable()

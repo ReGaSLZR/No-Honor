@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace ReGaSLZR
 {
 
@@ -7,12 +5,26 @@ namespace ReGaSLZR
     public class PlayerModel
     {
 
+        #region Constants
+
+        public const int PLAYER_HEALTH_MAX = 100;
+        public const int PLAYER_HEALTH_DEAD = 0;
+
+        #endregion //Constants
+
         #region Private Fields
 
+        [UnityEngine.SerializeField]
         private bool isLocalPlayer;
+        [UnityEngine.SerializeField]
         private bool isHost;
+        [UnityEngine.SerializeField]
         private string playerName;
+        [UnityEngine.SerializeField]
         private string playerId;
+
+        [UnityEngine.SerializeField]
+        private int health;
 
         #endregion //Private Fields
 
@@ -22,6 +34,8 @@ namespace ReGaSLZR
         public bool IsHost => isHost;
         public string PlayerName => playerName;
         public string PlayerId => playerId;
+
+        public int Health => health;
 
         #endregion //Accessors
 

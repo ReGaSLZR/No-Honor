@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ReGaSLZR
 {
 
-    public class LobbyListItemPlayerName : MonoBehaviour
+    public class LobbyListItemPlayerNameView : MonoBehaviour
     {
 
         #region Inspector Fields

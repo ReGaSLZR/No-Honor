@@ -40,7 +40,7 @@ namespace ReGaSLZR
         [Space]
 
         [SerializeField]
-        private LobbyListItemPlayerName prefabListItem;
+        private LobbyListItemPlayerNameView prefabListItem;
 
         #endregion //Inspector Fields
 

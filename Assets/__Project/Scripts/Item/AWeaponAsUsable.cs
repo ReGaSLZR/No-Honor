@@ -26,6 +26,7 @@ namespace ReGaSLZR
 
         [SerializeField]
         [EnableIf("isDamageOverTime")]
+        [Range(0.1f, 1f)]
         private float damageOverTimeInterval = 0.5f;
 
         [Space]

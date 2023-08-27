@@ -828,7 +828,7 @@ MonoBehaviour:
   weaponType: 2
   damage: 4
   isDamageOverTime: 1
-  damageOverTimeInterval: 0.25
+  damageOverTimeInterval: 0.3
   targetDetectors:
   - {fileID: 7652384364931026871}
   - {fileID: 7652384364259663989}
@@ -1645,7 +1645,7 @@ MonoBehaviour:
   weaponType: 4
   damage: 16
   isDamageOverTime: 1
-  damageOverTimeInterval: 0.5
+  damageOverTimeInterval: 0.8
   targetDetectors:
   - {fileID: 7652384364552875371}
   activeDuration: 7

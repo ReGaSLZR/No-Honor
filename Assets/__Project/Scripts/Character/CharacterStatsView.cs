@@ -73,6 +73,7 @@ namespace ReGaSLZR
         #region Private Fields
 
         private ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
+        private ReactiveProperty<bool> rIsPlayerDead = new ReactiveProperty<bool>(false);
         private float healthChangeRectPositionX;
 
         #endregion //Private Fields
@@ -96,14 +97,6 @@ namespace ReGaSLZR
             textHealthChange.CrossFadeAlpha(0f, 0f, true);
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                UpdateHealth((int)sliderHealth.value - 4);
-            }
-        }
-
         #endregion //Unity Callbacks
 
         #region Public API
@@ -120,6 +113,7 @@ namespace ReGaSLZR
         }
 
         public IReadOnlyReactiveProperty<int> GetHealthDiminished() => rHealthChange;
+        public IReadOnlyReactiveProperty<bool> IsPlayerDead() => rIsPlayerDead;
 
         #endregion //Public API
 
@@ -167,6 +161,7 @@ namespace ReGaSLZR
             var dim = Mathf.Clamp(presentHealth - newHealthValue, 
                 0, PlayerModel.PLAYER_HEALTH_MAX);
             rHealthChange.SetValueAndForceNotify(-dim);
+            rIsPlayerDead.Value = newHealthValue == 0;
         }
 
         private Color GetColor(int value)

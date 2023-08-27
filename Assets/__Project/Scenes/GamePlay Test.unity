@@ -424,7 +424,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: -123
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd883a248fced426693e05d482ebc9fc, type: 2}
   m_sharedMaterial: {fileID: -4171563015097924827, guid: dd883a248fced426693e05d482ebc9fc, type: 2}
@@ -972,7 +972,7 @@ GameObject:
   - component: {fileID: 963325761}
   m_Layer: 0
   m_Name: WALL BOTTOM
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1617,6 +1617,7 @@ MonoBehaviour:
   anima: {fileID: 1578509512}
   animBoolWalk: isWalking
   animBoolJump: isJumping
+  animTriggerDead: isDeadTrigger
   animTriggerHurt: isHurtTrigger
   movementSpeed: 4
   jumpFallMultiplier: 2

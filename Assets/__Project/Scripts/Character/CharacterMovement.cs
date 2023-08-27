@@ -48,6 +48,10 @@ namespace ReGaSLZR
 
         [SerializeField]
         [AnimatorParam("anima")]
+        private string animTriggerDead;
+
+        [SerializeField]
+        [AnimatorParam("anima")]
         private string animTriggerHurt;
 
         [Header("Calibrations")]
@@ -76,16 +80,24 @@ namespace ReGaSLZR
         {
             statsView.GetHealthDiminished()
                 .Where(dim => dim < 0)
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Subscribe(_ => Stagger())
                 .AddTo(this);
 
+            statsView.IsPlayerDead()
+                .Where(dead => dead)
+                .Subscribe(_ => anima.SetTrigger(animTriggerDead))
+                .AddTo(this);
+
             this.FixedUpdateAsObservable()
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Subscribe(_ => CheckMovementInput())
                 .AddTo(this);
 
             //TODO make the keys detection better. If have more time, use new InputSystem
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(KeyCode.Space))
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Where(_ => groundDetector.IsTargetDetected().Value)
                 .Where(_ => !anima.GetBool(animBoolJump))
                 .Subscribe(_ => JumpUp())
@@ -93,12 +105,14 @@ namespace ReGaSLZR
 
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => isGrounded)
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Subscribe(_ => anima.SetBool(animBoolJump, false))
                 .AddTo(this);
 
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => !isGrounded)
                 .Where(_ => !Input.GetKeyDown(KeyCode.Space))
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Subscribe(_ => anima.SetBool(animBoolJump, true))
                 .AddTo(this);
 
@@ -107,6 +121,7 @@ namespace ReGaSLZR
             this.FixedUpdateAsObservable()
                 .Select(_ => rigidBody2D.velocity)
                 .Where(velocity => (velocity.y < 0))
+                .Where(_ => !statsView.IsPlayerDead().Value)
                 .Subscribe(_ => JumpFall())
                 .AddTo(this);
         }
@@ -115,8 +130,15 @@ namespace ReGaSLZR
 
         #region Client Impl
 
+        private void Die()
+        {
+            anima.SetTrigger(animTriggerDead);
+            //anima.Sto
+        }
+
         private void Stagger()
         {
+            anima.SetBool(animTriggerDead, false);
             anima.SetTrigger(animTriggerHurt);
             rigidBody2D.velocity *= (rigidBody2D.velocity/-velocityPushOnStagger);
         }

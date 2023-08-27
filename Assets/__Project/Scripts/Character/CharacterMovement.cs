@@ -33,26 +33,8 @@ namespace ReGaSLZR
         [SerializeField]
         private CharacterStatsView statsView;
 
-        [Header("Animations")]
-
         [SerializeField]
-        private Animator anima;
-
-        [SerializeField]
-        [AnimatorParam("anima")]
-        private string animBoolWalk;
-
-        [SerializeField]
-        [AnimatorParam("anima")]
-        private string animBoolJump;
-
-        [SerializeField]
-        [AnimatorParam("anima")]
-        private string animTriggerDead;
-
-        [SerializeField]
-        [AnimatorParam("anima")]
-        private string animTriggerHurt;
+        private CharacterAnimator anima;
 
         [Header("Calibrations")]
 
@@ -90,7 +72,7 @@ namespace ReGaSLZR
                 .Where(_ => Input.GetKeyDown(KeyCode.Space))
                 .Where(_ => !statsView.IsPlayerDead().Value)
                 .Where(_ => groundDetector.IsTargetDetected().Value)
-                .Where(_ => !anima.GetBool(animBoolJump))
+                .Where(_ => !anima.Animator.GetBool(anima.AnimBoolJump))
                 .Subscribe(_ => JumpUp())
                 .AddTo(controlledDisposables);
         }
@@ -109,22 +91,17 @@ namespace ReGaSLZR
                 .Subscribe(_ => Stagger())
                 .AddTo(this);
 
-            statsView.IsPlayerDead()
-                .Where(dead => dead)
-                .Subscribe(_ => anima.SetTrigger(animTriggerDead))
-                .AddTo(this);
-
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => isGrounded)
                 .Where(_ => !statsView.IsPlayerDead().Value)
-                .Subscribe(_ => anima.SetBool(animBoolJump, false))
+                .Subscribe(_ => anima.Animator.SetBool(anima.AnimBoolJump, false))
                 .AddTo(this);
 
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => !isGrounded)
                 .Where(_ => !Input.GetKeyDown(KeyCode.Space))
                 .Where(_ => !statsView.IsPlayerDead().Value)
-                .Subscribe(_ => anima.SetBool(animBoolJump, true))
+                .Subscribe(_ => anima.Animator.SetBool(anima.AnimBoolJump, true))
                 .AddTo(this);
 
             //jump fall - hasten with fall multiplier to prevent "floaty" default effect
@@ -141,22 +118,18 @@ namespace ReGaSLZR
 
         #region Client Impl
 
-        private void Stagger()
-        {
-            anima.SetBool(animTriggerDead, false);
-            anima.SetTrigger(animTriggerHurt);
+        private void Stagger() =>
             rigidBody2D.velocity *= (rigidBody2D.velocity/-velocityPushOnStagger);
-        }
 
         private void JumpUp()
         {
-            anima.SetBool(animBoolJump, true);
+            anima.Animator.SetBool(anima.AnimBoolJump, true);
             rigidBody2D.velocity = (Vector2.up * jumpVelocity);
         }
 
         private void JumpFall()
         {
-            anima.SetBool(animBoolJump, false);
+            anima.Animator.SetBool(anima.AnimBoolJump, false);
             rigidBody2D.velocity += PhysicsUtil.GetFallVectorWithMultiplier(jumpFallMultiplier);
         }
 
@@ -177,13 +150,13 @@ namespace ReGaSLZR
             }
         }
 
-        private void Idle() => anima.SetBool(animBoolWalk, false);
+        private void Idle() => anima.Animator.SetBool(anima.AnimBoolWalk, false);
 
         private void MoveAndAnimateSide(Vector2 movementDirection)
         {
             rigidBody2D.position = (rigidBody2D.position +
                     (movementDirection * movementSpeed * Time.fixedDeltaTime));
-            anima.SetBool(animBoolWalk, true);
+            anima.Animator.SetBool(anima.AnimBoolWalk, true);
             spriteRenderer.flipX = (movementDirection != Vector2.right);
         }
 

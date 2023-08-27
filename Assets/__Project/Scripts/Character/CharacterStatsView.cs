@@ -94,6 +94,8 @@ namespace ReGaSLZR
         private void Start()
         {
             rHealthChange
+                .Where(change => (sliderHealth.value > 0) 
+                    || ((change > 0) && (sliderHealth.value == 0)))
                 .Subscribe(AnimateHealthChangeFX)
                 .AddTo(this);
 

@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 7652384364750723438}
   - component: {fileID: 7652384364750723429}
   - component: {fileID: 7652384364750723427}
+  - component: {fileID: 5295825885196633481}
   - component: {fileID: 7652384364750723426}
   - component: {fileID: 4389018451890831435}
   - component: {fileID: 3843575212101096173}
@@ -572,15 +573,29 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7652384364881784208}
   groundDetector: {fileID: 7652384366081703581}
   statsView: {fileID: 7652384365485592877}
-  anima: {fileID: 7652384364881784209}
-  animBoolWalk: isWalking
-  animBoolJump: isJumping
-  animTriggerDead: isDeadTrigger
-  animTriggerHurt: isHurtTrigger
+  anima: {fileID: 5295825885196633481}
   movementSpeed: 4
   jumpFallMultiplier: 2
   jumpVelocity: 6
   velocityPushOnStagger: 2
+--- !u!114 &5295825885196633481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652384364750723439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b14c8e8ce96daf4b82fd4f2f32026fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7652384364881784209}
+  animBoolWalk: isWalking
+  animBoolJump: isJumping
+  animTriggerDead: isDeadTrigger
+  animTriggerHurt: isHurtTrigger
+  statsView: {fileID: 7652384365485592877}
 --- !u!114 &7652384364750723426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2425,14 +2440,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
---- !u!4 &7652384364842650956 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
-  m_PrefabInstance: {fileID: 7652384364842784734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7652384364842750316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
+  m_PrefabInstance: {fileID: 7652384364842784734}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7652384364842650956 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
   m_PrefabInstance: {fileID: 7652384364842784734}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7652384365105470115

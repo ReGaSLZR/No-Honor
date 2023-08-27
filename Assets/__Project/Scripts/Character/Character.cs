@@ -26,7 +26,7 @@ namespace ReGaSLZR
         private CharacterMovement movt;
 
         [SerializeField]
-        private CharacterStatsView statsView;
+        private CharacterStats stats;
 
         [SerializeField]
         private CharacterItemPicker itemPicker;
@@ -55,10 +55,10 @@ namespace ReGaSLZR
             if (isNPC)
             {
                 movt.enabled = false;
-                Destroy(itemUser);
-                Destroy(itemPicker);
+                itemUser.enabled = false;
+                itemPicker.enabled = false;
 
-                statsView.SetIsDisplayed(false);
+                stats.View.SetIndicatorIsDisplayed(false);
                 yield break;
             }
         }
@@ -66,6 +66,8 @@ namespace ReGaSLZR
         #endregion //Unity Callbacks
 
         #region Client Impl
+
+
 
         #endregion //Client Impl
 

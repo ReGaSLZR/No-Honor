@@ -89,7 +89,7 @@ namespace ReGaSLZR
         public bool IsDamageOverTime => isDamageOverTime;
         public bool IsInUse => (gameObject.activeInHierarchy || gameObject.activeSelf);
 
-        public IReactiveProperty<bool> IsTargetDetected => rIsTargetDetected;
+        public IReactiveProperty<bool> IsTargetDetected() => rIsTargetDetected;
 
         public bool AttemptUse()
         {
@@ -102,16 +102,18 @@ namespace ReGaSLZR
             return true;
         }
 
-        public List<Character> GetTargets()
+        public List<CharacterStats> GetTargets()
         {
-            var targets = new List<Character>();
+            //Debug.LogWarning($"{GetType().Name} HEAVY OPERATION! " +
+            //    $"Use sparingly and cache results if possible.", gameObject);
+            var targets = new List<CharacterStats>();
 
             foreach (var detector in targetDetectors)
             {
                 var genTargets = detector.GetTargets();
                 foreach (var gen in genTargets)
                 {
-                    var isChar = gen.gameObject.TryGetComponent<Character>(
+                    var isChar = gen.gameObject.TryGetComponent<CharacterStats>(
                         out var brain);
                     if (isChar)
                     {

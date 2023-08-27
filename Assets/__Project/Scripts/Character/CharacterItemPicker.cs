@@ -29,6 +29,7 @@ namespace ReGaSLZR
         private void Start()
         {
             this.OnCollisionEnter2DAsObservable()
+                .Where(_ => enabled)
                 .Where(coll => coll.gameObject.tag.Equals(Tag.Item.ToString()))
                 .Select(coll => coll.gameObject.GetComponent<WeaponAsPickable>())
                 .Where(weapon => weapon != null)

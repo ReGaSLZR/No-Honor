@@ -12,31 +12,21 @@ namespace ReGaSLZR
 
         #endregion //Constants
 
-        #region Private Fields
+        #region Public Fields
 
-        private bool isLocalPlayer;
-        private bool isHost;
-        private string playerName;
-        private string playerId;
+        public bool isLocalPlayer;
+        public bool isHost;
+        public string playerName = Constants.DEFAULT_NPC_NAME;
+        public string playerId;
 
-        private int health;
-        private Weapon weapon;
+        public int health = PLAYER_HEALTH_MAX;
+        public Weapon weapon = Weapon.None;
 
-        #endregion //Private Fields
-
-        #region Accessors
-
-        public bool IsLocalPlayer => isLocalPlayer;
-        public bool IsHost => isHost;
-        public string PlayerName => playerName;
-        public string PlayerId => playerId;
-
-        public int Health => health;
-        public Weapon Weapon => weapon;
-
-        #endregion //Accessors
+        #endregion //Public Fields
 
         #region Public API
+
+        public PlayerModel() { }
 
         public PlayerModel(
             string playerName, string playerId, bool isLocalPlayer, bool isHost)

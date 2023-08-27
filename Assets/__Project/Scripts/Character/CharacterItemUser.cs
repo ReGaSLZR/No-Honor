@@ -24,6 +24,8 @@ namespace ReGaSLZR
         private CharacterItemPicker itemPicker;
         private AWeaponAsUsable cachedWeaponOnUse;
 
+        private CompositeDisposable disposables = new CompositeDisposable();
+
         #region Unity Callbacks
 
         private void Awake() => itemPicker = GetComponent<CharacterItemPicker>();
@@ -31,16 +33,22 @@ namespace ReGaSLZR
         private void Start()
         {
             this.UpdateAsObservable()
+                .Where(_ => enabled)
                 .Where(_ => Input.GetKeyDown(KeyCode.Return)) //TODO store keycode somewhere
                 .Select(_ => itemPicker.GetWeaponPicked().Value)
                 .Where(weapon => weapon != null)
                 .Where(_ => cachedWeaponOnUse == null || !cachedWeaponOnUse.IsInUse)
                 .Subscribe(OnUseWeapon)
                 .AddTo(this);
+
+            //this.UpdateAsObservable()
+            //    .Where(_ => cachedWeaponOnUse != null)
+            //    .Where(_ => cachedWeaponOnUse.IsTargetDetected().Value)
+            //    .Subscribe(_ => DamageWeaponVictims())
+            //    .AddTo(this);
         }
 
         #endregion //Unity Callbacks
-
 
         #region Public API
 
@@ -71,7 +79,14 @@ namespace ReGaSLZR
             var isUsed = weaponToUse.AttemptUse();
             if (isUsed)
             {
+                RefreshDisposable();
+
                 cachedWeaponOnUse = weaponToUse;
+                cachedWeaponOnUse.IsTargetDetected()
+                    .Where(det => det)
+                    .Subscribe(_ => DamageWeaponVictims())
+                    .AddTo(disposables);
+
                 hudView.UpdateWeapon(Weapon.None);
                 itemPicker.ClearWeapon();
             }
@@ -79,6 +94,29 @@ namespace ReGaSLZR
             {
                 Debug.LogWarning($"{GetType().Name}.OnUseWeapon() '{weapon.Type}'" +
                     $" still in use. Wait for its duration to be over before you can use it.");
+            }
+        }
+
+        private void RefreshDisposable()
+        {
+            disposables.Dispose();
+            disposables.Clear();
+            disposables = new CompositeDisposable();
+        }
+
+        private void DamageWeaponVictims()
+        {
+            Debug.Log($"DamageWeaponVictims called.");
+            var victims = cachedWeaponOnUse.GetTargets();
+
+            if (victims.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var victim in victims)
+            {
+                victim.ApplyDamage(cachedWeaponOnUse.DamageValue);
             }
         }
 

@@ -34,10 +34,10 @@ namespace ReGaSLZR
 
         public void SetUp(PlayerModel player)
         {
-            textName.text = string.Concat(player.IsHost ? prefixHost : string.Empty, 
-                player.PlayerName, player.IsLocalPlayer ? suffixLocalPlayer : string.Empty);
+            textName.text = string.Concat(player.isHost ? prefixHost : string.Empty, 
+                player.playerName, player.isLocalPlayer ? suffixLocalPlayer : string.Empty);
 
-            textName.color = player.IsLocalPlayer ? colorHighlighted : colorNormal;
+            textName.color = player.isLocalPlayer ? colorHighlighted : colorNormal;
         }
 
         #endregion //Public API

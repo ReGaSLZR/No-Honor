@@ -106,15 +106,18 @@ namespace ReGaSLZR
 
         public void SetIsDisplayed(bool isDisplayed) => rootView.SetActive(isDisplayed);
 
+        public void SetIndicatorIsDisplayed(bool isDisplayed) 
+            => localPlayerIndicator.SetActive(isDisplayed);
+
         public void UpdateView(PlayerModel playerModel)
         {
-            textCharacterName.text = playerModel.IsLocalPlayer 
-                ? localCharacterName : playerModel.PlayerName;
-            textCharacterName.color = playerModel.IsLocalPlayer 
+            textCharacterName.text = playerModel.isLocalPlayer 
+                ? localCharacterName : playerModel.playerName;
+            textCharacterName.color = playerModel.isLocalPlayer 
                 ? colorNameLocal : colorNameEnemy;
-            localPlayerIndicator.SetActive(playerModel.IsLocalPlayer);
+            localPlayerIndicator.SetActive(playerModel.isLocalPlayer);
 
-            UpdateHealth(playerModel.Health);
+            UpdateHealth(playerModel.health);
         }
 
         public IReadOnlyReactiveProperty<int> GetHealthDiminished() => rHealthChange;

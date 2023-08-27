@@ -54,9 +54,9 @@ namespace ReGaSLZR
 
         protected override void Start()
         {
+            base.Start();
             viewNormal.SetActive(false);
             viewOnImpact.SetActive(false);
-            base.Start();
         }
 
         #endregion //Unity Callbacks
@@ -68,9 +68,8 @@ namespace ReGaSLZR
 
         private IEnumerator C_Deactivate()
         {
-            yield return new WaitForSeconds(delayBeforeInactivity);
-
             rigidBody2D.velocity = Vector2.zero;
+            yield return new WaitForSeconds(delayBeforeInactivity);
 
             viewOnImpact.SetActive(false);
             gameObject.SetActive(false);

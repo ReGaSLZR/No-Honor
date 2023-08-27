@@ -583,10 +583,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNPC: 0
-  framesBeforeNPCSetUp: 5
+  framesBeforeNPCSetUp: 3
   movt: {fileID: 7652384364750723427}
   statsView: {fileID: 7652384365485592877}
   itemPicker: {fileID: 7652384364750723426}
+  weaponsOnDemand:
+  - {fileID: 7652384365755951668}
+  - {fileID: 7652384364915736229}
+  - {fileID: 7652384366096672465}
   hudView: {fileID: 0}
 --- !u!1 &7652384364881784223
 GameObject:
@@ -705,7 +709,7 @@ GameObject:
   - component: {fileID: 7652384364915736228}
   - component: {fileID: 7652384364915736229}
   m_Layer: 0
-  m_Name: ' AOE Fire'
+  m_Name: AOE Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,6 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cbb90fead24204ea7f653d6fd2c3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 2
   damage: 15
   isDamageOverTime: 0
   targetDetectors:
@@ -1313,6 +1318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790c6691e25ebf143816a001d2b6d720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 1
   damage: 25
   isDamageOverTime: 0
   targetDetectors:
@@ -1599,6 +1605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cbb90fead24204ea7f653d6fd2c3e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 4
   damage: 8
   isDamageOverTime: 1
   targetDetectors:

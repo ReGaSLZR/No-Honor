@@ -12,11 +12,15 @@ namespace ReGaSLZR
         [SerializeField]
         private Weapon type;
 
+        //[SerializeField]
+        //private uint quantity = 1;
+
         #endregion //Inspector Fields
 
         #region Accessors
 
         public Weapon Type => type;
+        //public uint Quantity => quantity;
 
         #endregion //Accessors
 

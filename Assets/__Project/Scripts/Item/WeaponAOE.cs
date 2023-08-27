@@ -16,7 +16,7 @@ namespace ReGaSLZR
         #region Overrides
 
         [NaughtyAttributes.Button]
-        protected override void Fire()
+        protected override void Use()
         {
             gameObject.SetActive(true);
             StopAllCoroutines();

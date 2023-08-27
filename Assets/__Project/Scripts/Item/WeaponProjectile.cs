@@ -90,7 +90,7 @@ namespace ReGaSLZR
         }
 
         [NaughtyAttributes.Button] //only in Editor, debug
-        protected override void Fire()
+        protected override void Use()
         {
             gameObject.transform.localPosition = startingPosition;
             rigidBody2D.velocity = Vector2.zero;

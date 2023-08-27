@@ -10,8 +10,12 @@ namespace ReGaSLZR
     public class CharacterItemPicker : MonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         private GameObject fxOnPickup;
+
+        #endregion //Inspector Fields
 
         private ReactiveProperty<WeaponAsPickable> rWeaponPicked = new ReactiveProperty<WeaponAsPickable>();
 
@@ -24,13 +28,6 @@ namespace ReGaSLZR
                 .Select(coll => coll.gameObject.GetComponent<WeaponAsPickable>())
                 .Where(weapon => weapon != null)
                 .Subscribe(weapon => rWeaponPicked.Value = weapon)
-                .AddTo(this);
-
-            this.OnCollisionExit2DAsObservable()
-                .Where(coll => rWeaponPicked.Value != null)
-                .Where(coll => coll.gameObject.GetHashCode() 
-                        == rWeaponPicked.Value.gameObject.GetHashCode())
-                .Subscribe(_ => rWeaponPicked.Value = null)
                 .AddTo(this);
 
             rWeaponPicked
@@ -46,6 +43,8 @@ namespace ReGaSLZR
         #region Public API
 
         public IReadOnlyReactiveProperty<WeaponAsPickable> GetWeaponPicked() => rWeaponPicked;
+
+        public void ClearWeapon() => rWeaponPicked.Value = null;
 
         #endregion //Public API
 

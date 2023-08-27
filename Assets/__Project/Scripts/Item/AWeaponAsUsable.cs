@@ -14,6 +14,9 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
+        private Weapon weaponType;
+
+        [SerializeField]
         [Range(PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX)]
         private int damage;
 
@@ -33,7 +36,7 @@ namespace ReGaSLZR
 
         #region Abstracts
 
-        protected abstract void Fire();
+        protected abstract void Use();
         protected abstract bool ShouldDeactivateOnTargetDetection();
         protected abstract bool ShouldDeactivateOnCollision();
         public abstract void Deactivate();
@@ -81,19 +84,20 @@ namespace ReGaSLZR
 
         #region Public API
 
+        public Weapon WeaponType => weaponType;
         public int DamageValue => damage;
         public bool IsDamageOverTime => isDamageOverTime;
 
         public IReactiveProperty<bool> IsTargetDetected => rIsTargetDetected;
 
-        public bool AttemptFire()
+        public bool AttemptUse()
         {
             if (gameObject.activeInHierarchy || gameObject.activeSelf)
             {
                 return false;
             }
 
-            Fire();
+            Use();
             return true;
         }
 

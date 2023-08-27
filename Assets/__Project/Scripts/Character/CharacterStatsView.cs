@@ -73,7 +73,7 @@ namespace ReGaSLZR
         #region Private Fields
 
         private ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
-        private float posX;
+        private float healthChangeRectPositionX;
 
         #endregion //Private Fields
 
@@ -81,7 +81,7 @@ namespace ReGaSLZR
 
         private void Awake()
         {
-            posX = rectHealthChange.localPosition.x;
+            healthChangeRectPositionX = rectHealthChange.localPosition.x;
 
             sliderHealth.minValue = PlayerModel.PLAYER_HEALTH_DEAD;
             sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;   
@@ -133,26 +133,26 @@ namespace ReGaSLZR
 
         private IEnumerator C_AnimateHealthChangeFX(int healthChange)
         {
-            
+            var origin = new Vector2(healthChangeRectPositionX, healthChangePositionY.x);
+            var destination = new Vector2(healthChangeRectPositionX, healthChangePositionY.y);
             var timeElapsed = 0f;
 
             textHealthChange.color = (healthChange>=0) ? colorHealthRegen : colorHealthDamage;
             textHealthChange.CrossFadeAlpha(1f, 0f, true);
             textHealthChange.text = healthChange.ToString();
 
-            rectHealthChange.localPosition = new Vector2(posX, healthChangePositionY.x);
+            rectHealthChange.localPosition = origin;
             textHealthChange.CrossFadeAlpha(0f, healthChangeLerpDuration, true);
 
             while (timeElapsed < healthChangeLerpDuration)
             {
-                rectHealthChange.localPosition = new Vector2(posX, 
-                    Mathf.Lerp(healthChangePositionY.x, healthChangePositionY.y,
-                    timeElapsed / healthChangeLerpDuration));
+                rectHealthChange.localPosition = Vector2.Lerp(origin, destination,
+                    timeElapsed / healthChangeLerpDuration);
                 yield return null;
                 timeElapsed += Time.deltaTime;
             }
 
-            rectHealthChange.localPosition = new Vector2(posX, healthChangePositionY.y);
+            rectHealthChange.localPosition = destination;
             textHealthChange.CrossFadeAlpha(0f, 0f, true);
         }
 

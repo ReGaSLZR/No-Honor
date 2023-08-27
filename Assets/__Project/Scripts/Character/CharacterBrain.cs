@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 using UniRx;
+using System.Collections;
 
 namespace ReGaSLZR
 {
@@ -10,31 +11,43 @@ namespace ReGaSLZR
 
         #region Inspector Fields
 
+        [SerializeField]
+        private bool isNPC;
+
+        [Space]
+
+        [SerializeField]
+        private uint framesBeforeNPCSetUp = 5;
+
         [Header("Components")]
 
         [SerializeField]
-        [Required]
         private CharacterMovement movt;
 
         [SerializeField]
-        [Required]
         private CharacterStatsView statsView;
 
         [SerializeField]
-        [Required]
         private CharacterItemPicker itemPicker;
-
-        //[Space]
-
-
 
         #endregion //Inspector Fields
 
         #region Unity Callbacks
 
-        private void Start()
+        private IEnumerator Start()
         {
-            
+            var frames = 0;
+            while (frames < framesBeforeNPCSetUp)
+            {
+                yield return null;
+                frames++;
+            }
+
+            if (isNPC)
+            {
+                movt.enabled = false;
+                Destroy(itemPicker);
+            }
         }
 
         #endregion //Unity Callbacks

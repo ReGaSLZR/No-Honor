@@ -14,6 +14,9 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
+        private List<Collider2D> excludedObjects;
+
+        [SerializeField]
         [Tag]
         private List<string> targetTags;
 
@@ -104,21 +107,25 @@ namespace ReGaSLZR
         private void InitControlledObservers()
         {
             this.OnTriggerEnter2DAsObservable()
+                .Where(otherCollider2D => IsNotExcludedObject(otherCollider2D))
                 .Where(otherCollider2D => IsMatchingTag(otherCollider2D.tag))
                 .Subscribe(otherCollider2D => CaptureTargets(otherCollider2D))
                 .AddTo(disposables);
 
             this.OnTriggerExit2DAsObservable()
+                .Where(otherCollider2D => IsNotExcludedObject(otherCollider2D))
                 .Where(otherCollider2D => IsMatchingTag(otherCollider2D.tag))
                 .Subscribe(otherCollider2D => ClearTargets())
                 .AddTo(disposables);
 
             this.OnCollisionEnter2DAsObservable()
+                .Where(otherCollision2D => IsNotExcludedObject(otherCollision2D.collider))
                 .Where(otherCollision2D => IsMatchingTag(otherCollision2D.gameObject.tag))
                 .Subscribe(otherCollision2D => CaptureTargets(otherCollision2D.collider))
                 .AddTo(disposables);
 
             this.OnCollisionExit2DAsObservable()
+                .Where(otherCollision2D => IsNotExcludedObject(otherCollision2D.collider))
                 .Where(otherCollision2D => IsMatchingTag(otherCollision2D.gameObject.tag))
                 .Subscribe(otherCollider2D => ClearTargets())
                 .AddTo(disposables);
@@ -158,7 +165,7 @@ namespace ReGaSLZR
 
         private void CaptureTargets(Collider2D targetCollider)
         {
-            if (isTargetDetected.Value == false)
+            if (!isTargetDetected.Value)
             {
                 RefreshTargets(targetCollider);
                 isTargetDetected.Value = true;
@@ -167,17 +174,20 @@ namespace ReGaSLZR
 
         private void ClearTargets()
         {
-            isTargetDetected.Value = false;
+            isTargetDetected.SetValueAndForceNotify(false);
             targets.Clear();
         }
 
-        private void RefreshTargets(Collider2D detectedCollider)
+        private void RefreshTargets(Collider2D coll)
         {
             targets.Clear();
 
-            if (isLockedToFirstSingleTarget && IsMatchingTag(detectedCollider.tag))
+            if (isLockedToFirstSingleTarget)
             {
-                targets.Add(detectedCollider);
+                if (IsMatchingTag(coll.tag) && IsNotExcludedObject(coll))
+                {
+                    targets.Add(coll);
+                }
             }
             else
             {
@@ -186,7 +196,8 @@ namespace ReGaSLZR
                 //filter targets by tags
                 foreach (Collider2D collider2D in tempTargets)
                 {
-                    if (collider2D.isActiveAndEnabled && IsMatchingTag(collider2D.tag))
+                    if (collider2D.isActiveAndEnabled 
+                        && IsMatchingTag(collider2D.tag) && IsNotExcludedObject(collider2D))
                     {
                         targets.Add(collider2D);
                     }
@@ -195,6 +206,8 @@ namespace ReGaSLZR
         }
 
         private bool IsMatchingTag(string tag) => targetTags.Contains(tag);
+
+        private bool IsNotExcludedObject(Collider2D col) => !excludedObjects.Contains(col);
 
         #endregion //Client Impl
 

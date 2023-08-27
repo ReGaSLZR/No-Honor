@@ -12,6 +12,9 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
+        private CharacterAnimator characterAnimator;
+
+        [SerializeField]
         private AWeaponAsUsable[] weaponsOnDemand;
 
         [Header("Runtime set")]
@@ -77,6 +80,7 @@ namespace ReGaSLZR
                 RefreshDisposable();
 
                 cachedWeaponOnUse = weaponToUse;
+                characterAnimator.AnimateAttackWithWeapon(cachedWeaponOnUse.WeaponType);
                 SetUpWeponTargetDetection();
 
                 hudView.UpdateWeapon(Weapon.None);
@@ -105,7 +109,13 @@ namespace ReGaSLZR
                     .Where(_ => cachedWeaponOnUse.IsTargetDetected().Value)
                     .Where(_ => cachedWeaponUseTimeEnd < Time.time)
                     .Subscribe(_ => DamageWeaponVictims())
-                .AddTo(disposables);
+                    .AddTo(disposables);
+
+                this.UpdateAsObservable()
+                    .Where(_ => cachedWeaponOnUse.IsDamageOverTime)
+                    .Where(_ => cachedWeaponOnUse.IsInUse)
+                    .Subscribe(_ => characterAnimator.AnimateAttackWithWeapon(cachedWeaponOnUse.WeaponType))
+                    .AddTo(disposables);
             }
         }
 
@@ -120,7 +130,7 @@ namespace ReGaSLZR
         {
             Debug.Log($"DamageWeaponVictims called.", gameObject);
             var victims = cachedWeaponOnUse.GetTargets();
-            cachedWeaponUseTimeEnd = cachedWeaponOnUse.DamageOverTimeInterval + Time.time;
+            cachedWeaponUseTimeEnd = cachedWeaponOnUse.DamageOverTimeInterval + Time.time; 
 
             if (victims.Count == 0)
             {

@@ -9110,16 +9110,12 @@ PrefabInstance:
       propertyPath: isNPC
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7652384364750723429, guid: e6107de194feba54a80018031ceb1753, type: 3}
-      propertyPath: framesBeforeNPCSetUp
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7652384364750723439, guid: e6107de194feba54a80018031ceb1753, type: 3}
       propertyPath: m_Name
       value: Character NPC
       objectReference: {fileID: 0}
-    - target: {fileID: 7652384366096672464, guid: e6107de194feba54a80018031ceb1753, type: 3}
-      propertyPath: m_IsTrigger
+    - target: {fileID: 7652384364881784223, guid: e6107de194feba54a80018031ceb1753, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

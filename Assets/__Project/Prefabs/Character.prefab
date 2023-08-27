@@ -473,7 +473,6 @@ GameObject:
   - component: {fileID: 7652384364750723438}
   - component: {fileID: 7652384364750723429}
   - component: {fileID: 7652384364750723427}
-  - component: {fileID: 5295825885196633481}
   - component: {fileID: 7652384364750723426}
   - component: {fileID: 4389018451890831435}
   - component: {fileID: 3843575212101096173}
@@ -573,29 +572,11 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7652384364881784208}
   groundDetector: {fileID: 7652384366081703581}
   statsView: {fileID: 7652384365485592877}
-  anima: {fileID: 5295825885196633481}
+  anima: {fileID: 6549091990131735410}
   movementSpeed: 4
   jumpFallMultiplier: 2
   jumpVelocity: 6
   velocityPushOnStagger: 2
---- !u!114 &5295825885196633481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7652384364750723439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b14c8e8ce96daf4b82fd4f2f32026fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 7652384364881784209}
-  animBoolWalk: isWalking
-  animBoolJump: isJumping
-  animTriggerDead: isDeadTrigger
-  animTriggerHurt: isHurtTrigger
-  statsView: {fileID: 7652384365485592877}
 --- !u!114 &7652384364750723426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e9e18aed9b55d49acc828b9f87f271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterAnimator: {fileID: 6549091990131735410}
   weaponsOnDemand:
   - {fileID: 7652384365755951668}
   - {fileID: 7652384364915736229}
@@ -651,6 +633,7 @@ GameObject:
   - component: {fileID: 7652384364881784222}
   - component: {fileID: 7652384364881784208}
   - component: {fileID: 7652384364881784209}
+  - component: {fileID: 6549091990131735410}
   m_Layer: 0
   m_Name: Slime Graphics
   m_TagString: Untagged
@@ -744,6 +727,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6549091990131735410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652384364881784223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b14c8e8ce96daf4b82fd4f2f32026fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7652384364881784209}
+  animBoolWalk: isWalking
+  animBoolJump: isJumping
+  animTriggerDead: isDeadTrigger
+  animTriggerHurt: isHurtTrigger
+  animTriggerAttackRock: isAttackingTriggerRock
+  animTriggerAttackFire: isAttackingTriggerFire
+  animTriggerAttackPoison: isAttackingTriggerPoison
+  statsView: {fileID: 7652384365485592877}
 --- !u!1 &7652384364915736224
 GameObject:
   m_ObjectHideFlags: 0

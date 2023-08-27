@@ -13,7 +13,7 @@ namespace ReGaSLZR
         [SerializeField]
         private Animator animator;
 
-        [Space]
+        [Header("Animation - Locomotion")]
 
         [SerializeField]
         [AnimatorParam("animator")]
@@ -23,6 +23,8 @@ namespace ReGaSLZR
         [AnimatorParam("animator")]
         private string animBoolJump;
 
+        [Header("Animation - Status")]
+
         [SerializeField]
         [AnimatorParam("animator")]
         private string animTriggerDead;
@@ -30,6 +32,20 @@ namespace ReGaSLZR
         [SerializeField]
         [AnimatorParam("animator")]
         private string animTriggerHurt;
+
+        [Header("Animation - Attack")]
+
+        [SerializeField]
+        [AnimatorParam("animator")]
+        private string animTriggerAttackRock;
+
+        [SerializeField]
+        [AnimatorParam("animator")]
+        private string animTriggerAttackFire;
+
+        [SerializeField]
+        [AnimatorParam("animator")]
+        private string animTriggerAttackPoison;
 
         [Header("Other Settings")]
 
@@ -41,6 +57,7 @@ namespace ReGaSLZR
         #region Accessors
 
         public Animator Animator => animator;
+
         public string AnimBoolWalk => animBoolWalk;
         public string AnimBoolJump => animBoolJump;
         public string AnimTriggerDead => animTriggerDead;
@@ -65,6 +82,24 @@ namespace ReGaSLZR
         }
 
         #endregion //Unity Callbacks
+
+        #region Public API
+
+        public void AnimateAttackWithWeapon(Weapon weapon)
+        {
+            if (weapon == Weapon.None)
+            {
+                return;
+            }
+
+            animator.SetTrigger(
+                (Weapon.Rock == weapon) ? animTriggerAttackRock
+                : (Weapon.Fire == weapon) ? animTriggerAttackFire
+                : (Weapon.Poison == weapon) ? animTriggerAttackPoison
+                : animTriggerAttackRock);
+        }
+
+        #endregion //Public API
 
     }
 

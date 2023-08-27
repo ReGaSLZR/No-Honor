@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 974887026}
   - component: {fileID: 974887028}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Canvas UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -991,12 +991,6 @@ MonoBehaviour:
   colorNameLocal: {r: 1, g: 1, b: 1, a: 1}
   colorNameEnemy: {r: 1, g: 0.09803922, b: 0.09803922, a: 1}
   localCharacterName: YOU
-  playerModel:
-    isLocalPlayer: 0
-    isHost: 0
-    playerName: 
-    playerId: 
-    health: 0
 --- !u!1 &1073711507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,7 +1282,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1478,12 +1472,15 @@ MonoBehaviour:
   rigidBody2D: {fileID: 1445351480}
   spriteRenderer: {fileID: 1578509513}
   groundDetector: {fileID: 110327748}
+  statsView: {fileID: 974887028}
   anima: {fileID: 1578509512}
   animBoolWalk: isWalking
   animBoolJump: isJumping
+  animTriggerHurt: isHurtTrigger
   movementSpeed: 4
   jumpFallMultiplier: 2
   jumpVelocity: 6
+  velocityPushOnStagger: 2
 --- !u!1 &1448569300
 GameObject:
   m_ObjectHideFlags: 0

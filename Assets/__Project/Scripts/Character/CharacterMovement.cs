@@ -1,6 +1,4 @@
 using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
@@ -32,6 +30,9 @@ namespace ReGaSLZR
         [SerializeField]
         private TargetDetector groundDetector;
 
+        [SerializeField]
+        private CharacterStatsView statsView;
+
         [Header("Animations")]
 
         [SerializeField]
@@ -44,6 +45,10 @@ namespace ReGaSLZR
         [SerializeField]
         [AnimatorParam("anima")]
         private string animBoolJump;
+
+        [SerializeField]
+        [AnimatorParam("anima")]
+        private string animTriggerHurt;
 
         [Header("Calibrations")]
 
@@ -59,12 +64,21 @@ namespace ReGaSLZR
         [Range(MIN_CALIBRATION, MAX_CALIBRATION)]
         private float jumpVelocity = 1f;
 
+        [SerializeField]
+        [Range(MIN_CALIBRATION, MAX_CALIBRATION)]
+        private float velocityPushOnStagger;
+
         #endregion //Inspector Fields
 
         #region Unity Callbacks
 
         private void Start()
         {
+            statsView.IsHealthDiminished()
+                .Where(isDiminished => isDiminished)
+                .Subscribe(_ => Stagger())
+                .AddTo(this);
+
             this.FixedUpdateAsObservable()
                 .Subscribe(_ => CheckMovementInput())
                 .AddTo(this);
@@ -100,6 +114,12 @@ namespace ReGaSLZR
         #endregion //Unity Callbacks
 
         #region Client Impl
+
+        private void Stagger()
+        {
+            anima.SetTrigger(animTriggerHurt);
+            rigidBody2D.velocity *= (rigidBody2D.velocity/-velocityPushOnStagger);
+        }
 
         private void JumpUp()
         {

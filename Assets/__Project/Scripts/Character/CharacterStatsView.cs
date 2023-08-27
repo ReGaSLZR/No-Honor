@@ -1,11 +1,12 @@
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ReGaSLZR
 {
 
-    public class CharacterUIView : MonoBehaviour
+    public class CharacterStatsView : MonoBehaviour
     {
 
         #region Inspector Fields
@@ -41,9 +42,25 @@ namespace ReGaSLZR
 
         #endregion //Inspector Fields
 
+        #region Private Fields
+
+        private ReactiveProperty<bool> rIsHealthDiminished = new ReactiveProperty<bool>(false);
+
+        #endregion //Private Fields
+
+        #region Unity Callbacks
+
+        private void Awake()
+        {
+            sliderHealth.minValue = PlayerModel.PLAYER_HEALTH_DEAD;
+            sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;
+        }
+
+        #endregion //Unity Callbacks
+
         #region Public API
 
-        public void SetUp(PlayerModel playerModel)
+        public void UpdateView(PlayerModel playerModel)
         {
             textCharacterName.text = playerModel.IsLocalPlayer 
                 ? localCharacterName : playerModel.PlayerName;
@@ -51,16 +68,25 @@ namespace ReGaSLZR
                 ? colorNameLocal : colorNameEnemy;
             localPlayerIndicator.SetActive(playerModel.IsLocalPlayer);
 
-            sliderHealth.minValue = PlayerModel.PLAYER_HEALTH_DEAD;
-            sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;
-            sliderHealth.value = Mathf.Clamp(playerModel.Health, 
-                PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
-            sliderFill.color = GetColor((int)sliderHealth.value);
+            UpdateHealth(playerModel.Health);
         }
+
+        public IReadOnlyReactiveProperty<bool> IsHealthDiminished() => rIsHealthDiminished;
 
         #endregion //Public API
 
         #region Client Impl
+
+        private void UpdateHealth(int newHealth)
+        {
+            var presentHealth = (int)sliderHealth.value;   
+            var newHealthValue = Mathf.Clamp(newHealth,
+                PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
+            sliderHealth.value = newHealthValue;
+            sliderFill.color = GetColor(newHealthValue);
+
+            rIsHealthDiminished.SetValueAndForceNotify(newHealthValue < presentHealth);
+        }
 
         private Color GetColor(int value)
         {

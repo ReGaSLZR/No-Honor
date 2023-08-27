@@ -16,6 +16,9 @@ namespace ReGaSLZR
         [Header("UI Elements")]
 
         [SerializeField]
+        private GameObject rootView;
+
+        [SerializeField]
         private GameObject localPlayerIndicator;
 
         [SerializeField]
@@ -100,6 +103,8 @@ namespace ReGaSLZR
         #endregion //Unity Callbacks
 
         #region Public API
+
+        public void SetIsDisplayed(bool isDisplayed) => rootView.SetActive(isDisplayed);
 
         public void UpdateView(PlayerModel playerModel)
         {

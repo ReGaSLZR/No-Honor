@@ -30,6 +30,11 @@ namespace ReGaSLZR
         [SerializeField]
         private CharacterItemPicker itemPicker;
 
+        [Header("For Setting Up in Runtime")]
+
+        [SerializeField]
+        private PlayerHUD hudView;
+
         #endregion //Inspector Fields
 
         #region Unity Callbacks
@@ -47,10 +52,22 @@ namespace ReGaSLZR
             {
                 movt.enabled = false;
                 Destroy(itemPicker);
+
+                statsView.SetIsDisplayed(false);
             }
         }
 
         #endregion //Unity Callbacks
+
+        #region Public API
+
+        public void SetUpAsPlayer(PlayerHUD hudView)
+        {
+            isNPC = false;
+            this.hudView = hudView;
+        }
+
+        #endregion //Public API
 
     }
 

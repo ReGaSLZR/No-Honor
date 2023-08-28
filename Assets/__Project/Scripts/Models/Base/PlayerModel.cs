@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace ReGaSLZR
 {
 
@@ -27,6 +29,9 @@ namespace ReGaSLZR
         public int surviveTime;
 
         #endregion //Public Fields
+
+        public int ClampedHealth => Mathf.Clamp(health,
+            PLAYER_HEALTH_DEAD, PLAYER_HEALTH_MAX);
 
         #region Public API
 

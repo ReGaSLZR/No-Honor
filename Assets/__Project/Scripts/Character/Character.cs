@@ -1,8 +1,4 @@
-using NaughtyAttributes;
 using UnityEngine;
-using UniRx;
-using System.Collections;
-using UniRx.Triggers;
 
 namespace ReGaSLZR
 {
@@ -13,12 +9,9 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private bool isNPC;
+        private bool isBot;
 
         [Space]
-
-        [SerializeField]
-        private uint framesBeforeNPCSetUp = 5;
 
         [Header("Components")]
 
@@ -37,49 +30,49 @@ namespace ReGaSLZR
         [Header("For Setting Up in Runtime")]
 
         [SerializeField]
-        private PlayerHUD hudView;
+        private PlayerHUD viewHud;
 
         #endregion //Inspector Fields
 
-        #region Unity Callbacks
-
-        private IEnumerator Start()
-        {
-            var frames = 0;
-            while (frames < framesBeforeNPCSetUp)
-            {
-                yield return null;
-                frames++;
-            }
-
-            if (isNPC)
-            {
-                movt.enabled = false;
-                itemUser.enabled = false;
-                itemPicker.enabled = false;
-
-                stats.View.SetIndicatorIsDisplayed(false);
-                yield break;
-            }
-        }
-
-        #endregion //Unity Callbacks
-
         #region Client Impl
 
+        private void SetUpAsNPC()
+        {
+            movt.enabled = false;
+            itemUser.enabled = false;
+            itemPicker.enabled = false;
 
+            stats.View.SetIndicatorIsDisplayed(false);
+            gameObject.name = Constants.DEFAULT_NPC_NAME;
+        }
+
+        private void SetUpAsLocalPlayer()
+        {
+            itemPicker.SetUp(viewHud);
+            itemUser.SetUp(viewHud);
+
+            var model = stats.Model.Value;
+            model.isLocalPlayer = true;
+            stats.UpdateModel(model);
+        }
 
         #endregion //Client Impl
 
         #region Public API
 
-        public void SetUpAsPlayer(PlayerHUD hudView)
+        public void SetUp(bool isBot, PlayerHUD viewHud)
         {
-            isNPC = false;
-            this.hudView = hudView;
+            this.isBot = isBot;
+            this.viewHud = viewHud;
 
-            itemPicker.SetUp(hudView);
-            itemUser.SetUp(hudView);
+            if (isBot)
+            {
+                SetUpAsNPC();
+            }
+            else
+            {
+                SetUpAsLocalPlayer();
+            }
         }
 
         #endregion //Public API

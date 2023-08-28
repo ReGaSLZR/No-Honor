@@ -75,8 +75,7 @@ namespace ReGaSLZR
 
         #region Private Fields
 
-        private ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
-        private ReactiveProperty<bool> rIsPlayerDead = new ReactiveProperty<bool>(false);
+        
         private float healthChangeRectPositionX;
 
         #endregion //Private Fields
@@ -89,15 +88,6 @@ namespace ReGaSLZR
 
             sliderHealth.minValue = PlayerModel.PLAYER_HEALTH_DEAD;
             sliderHealth.maxValue = PlayerModel.PLAYER_HEALTH_MAX;   
-        }
-
-        private void Start()
-        {
-            rHealthChange
-                .Where(change => (sliderHealth.value > 0) 
-                    || ((change > 0) && (sliderHealth.value == 0)))
-                .Subscribe(AnimateHealthChangeFX)
-                .AddTo(this);
 
             textHealthChange.CrossFadeAlpha(0f, 0f, true);
         }
@@ -119,21 +109,19 @@ namespace ReGaSLZR
                 ? colorNameLocal : colorNameEnemy;
             localPlayerIndicator.SetActive(playerModel.isLocalPlayer);
 
-            UpdateHealth(playerModel.health);
+            sliderHealth.value = playerModel.health;
+            sliderFill.color = GetColor(playerModel.health);
         }
 
-        public IReadOnlyReactiveProperty<int> GetHealthDiminished() => rHealthChange;
-        public IReadOnlyReactiveProperty<bool> IsPlayerDead() => rIsPlayerDead;
-
-        #endregion //Public API
-
-        #region Client Impl
-
-        private void AnimateHealthChangeFX(int healthChange)
+        public void AnimateHealthChangeFX(int healthChange)
         {
             StopAllCoroutines();
             StartCoroutine(C_AnimateHealthChangeFX(healthChange));
         }
+
+        #endregion //Public API
+
+        #region Client Impl
 
         private IEnumerator C_AnimateHealthChangeFX(int healthChange)
         {
@@ -160,20 +148,6 @@ namespace ReGaSLZR
             textHealthChange.CrossFadeAlpha(0f, 0f, true);
         }
 
-        private void UpdateHealth(int newHealth)
-        {
-            var presentHealth = (int)sliderHealth.value;   
-            var newHealthValue = Mathf.Clamp(newHealth,
-                PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
-            sliderHealth.value = newHealthValue;
-            sliderFill.color = GetColor(newHealthValue);
-
-            var dim = Mathf.Clamp(presentHealth - newHealthValue, 
-                0, PlayerModel.PLAYER_HEALTH_MAX);
-            rHealthChange.SetValueAndForceNotify(-dim);
-            rIsPlayerDead.Value = newHealthValue == 0;
-        }
-
         private Color GetColor(int value)
         {
             var part = PlayerModel.PLAYER_HEALTH_MAX / colorHealthStatus.Length;
@@ -189,7 +163,7 @@ namespace ReGaSLZR
                 index++;
             }
 
-            return Color.black;
+            return colorHealthStatus[colorHealthStatus.Length - 1];
         }
 
         #endregion //Client Impl

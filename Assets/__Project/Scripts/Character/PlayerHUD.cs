@@ -99,7 +99,6 @@ namespace ReGaSLZR
                 yield return null;
                 timeElapsed += Time.deltaTime;
             }
-            
         }
 
         private Sprite GetWeaponSprite(Weapon weapon)

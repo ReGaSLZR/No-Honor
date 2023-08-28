@@ -25,13 +25,16 @@ namespace ReGaSLZR
         private Rigidbody2D rigidBody2D;
 
         [SerializeField]
+        private new Collider2D collider2D;
+
+        [SerializeField]
         private SpriteRenderer spriteRenderer;
 
         [SerializeField]
         private TargetDetector groundDetector;
 
         [SerializeField]
-        private CharacterStatsView statsView;
+        private CharacterStats stats;
 
         [SerializeField]
         private CharacterAnimator anima;
@@ -63,14 +66,14 @@ namespace ReGaSLZR
         private void OnEnable()
         {
             this.FixedUpdateAsObservable()
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => CheckMovementInput())
                 .AddTo(controlledDisposables);
 
             //TODO make the keys detection better. If have more time, use new InputSystem
             this.UpdateAsObservable()
                 .Where(_ => Input.GetKeyDown(KeyCode.Space))
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Where(_ => groundDetector.IsTargetDetected().Value)
                 .Where(_ => !anima.Animator.GetBool(anima.AnimBoolJump))
                 .Subscribe(_ => JumpUp())
@@ -81,26 +84,32 @@ namespace ReGaSLZR
         {
             controlledDisposables.Dispose();
             controlledDisposables.Clear();
+            controlledDisposables = new CompositeDisposable();
         }
 
         private void Start()
         {
-            statsView.GetHealthDiminished()
+            stats.GetHealthDiminished()
                 .Where(dim => dim < 0)
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => Stagger())
+                .AddTo(this);
+
+            stats.IsPlayerDead()
+                .Where(isDead => isDead)
+                .Subscribe(_ => OnDeath())
                 .AddTo(this);
 
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => isGrounded)
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => anima.Animator.SetBool(anima.AnimBoolJump, false))
                 .AddTo(this);
 
             groundDetector.IsTargetDetected()
                 .Where(isGrounded => !isGrounded)
                 .Where(_ => !Input.GetKeyDown(KeyCode.Space))
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => anima.Animator.SetBool(anima.AnimBoolJump, true))
                 .AddTo(this);
 
@@ -109,7 +118,7 @@ namespace ReGaSLZR
             this.FixedUpdateAsObservable()
                 .Select(_ => rigidBody2D.velocity)
                 .Where(velocity => (velocity.y < 0))
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => JumpFall())
                 .AddTo(this);
         }
@@ -117,6 +126,13 @@ namespace ReGaSLZR
         #endregion //Unity Callbacks
 
         #region Client Impl
+
+        private void OnDeath()
+        {
+            rigidBody2D.bodyType = RigidbodyType2D.Static;
+            collider2D.isTrigger = true;
+            collider2D.enabled = false;
+        }
 
         private void Stagger() =>
             rigidBody2D.velocity *= (rigidBody2D.velocity/-velocityPushOnStagger);

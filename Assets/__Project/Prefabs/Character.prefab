@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bot
+  m_text: BOT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd883a248fced426693e05d482ebc9fc, type: 2}
   m_sharedMaterial: {fileID: -4171563015097924827, guid: dd883a248fced426693e05d482ebc9fc, type: 2}
@@ -185,8 +185,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289705459
-  m_fontColor: {r: 0.9529412, g: 0.71097326, b: 0.6862745, a: 1}
+    rgba: 4279835135
+  m_fontColor: {r: 1, g: 0.09803922, b: 0.09803922, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -549,13 +549,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873e80c5428cf304ea802cb0a7e79bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isNPC: 0
-  framesBeforeNPCSetUp: 3
+  isBot: 0
   movt: {fileID: 7652384364750723427}
   stats: {fileID: 3843575212101096173}
   itemPicker: {fileID: 7652384364750723426}
   itemUser: {fileID: 4389018451890831435}
-  hudView: {fileID: 0}
+  viewHud: {fileID: 0}
 --- !u!114 &7652384364750723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,9 +568,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidBody2D: {fileID: 7652384364750723425}
+  collider2D: {fileID: 7652384364750723438}
   spriteRenderer: {fileID: 7652384364881784208}
   groundDetector: {fileID: 7652384366081703581}
-  statsView: {fileID: 7652384365485592877}
+  stats: {fileID: 3843575212101096173}
   anima: {fileID: 6549091990131735410}
   movementSpeed: 4
   jumpFallMultiplier: 2
@@ -747,7 +747,7 @@ MonoBehaviour:
   animTriggerAttackRock: isAttackingTriggerRock
   animTriggerAttackFire: isAttackingTriggerFire
   animTriggerAttackPoison: isAttackingTriggerPoison
-  statsView: {fileID: 7652384365485592877}
+  stats: {fileID: 3843575212101096173}
 --- !u!1 &7652384364915736224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,7 +1246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.099999994}
+  m_AnchoredPosition: {x: 0, y: -0.1}
   m_SizeDelta: {x: 0.3, y: 0.19999999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7652384365579420197
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.89164263, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

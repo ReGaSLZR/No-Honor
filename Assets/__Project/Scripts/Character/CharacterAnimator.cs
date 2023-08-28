@@ -50,7 +50,7 @@ namespace ReGaSLZR
         [Header("Other Settings")]
 
         [SerializeField]
-        private CharacterStatsView statsView;
+        private CharacterStats stats;
 
         #endregion //Inspector Fields
 
@@ -69,13 +69,13 @@ namespace ReGaSLZR
 
         private void Start()
         {
-            statsView.GetHealthDiminished()
+            stats.GetHealthDiminished()
                 .Where(dim => dim < 0)
-                .Where(_ => !statsView.IsPlayerDead().Value)
+                .Where(_ => !stats.IsPlayerDead().Value)
                 .Subscribe(_ => animator.SetTrigger(animTriggerHurt))
                 .AddTo(this);
 
-            statsView.IsPlayerDead()
+            stats.IsPlayerDead()
                 .Where(dead => dead)
                 .Subscribe(_ => animator.SetTrigger(animTriggerDead))
                 .AddTo(this);

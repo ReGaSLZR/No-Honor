@@ -18060,7 +18060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneModel:
-    sceneLobby: PlayerLobby
+    sceneLobby: Player Lobby
     sceneGameplay: GamePlay Test
 --- !u!4 &995838672
 Transform:
@@ -19484,13 +19484,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasRoot: {fileID: 1257140663}
-  textMatchCode: {fileID: 215459413}
   playerListParent: {fileID: 1044792266}
+  buttonExit: {fileID: 1531345339}
+  prefabListItem: {fileID: 7408458307331749449, guid: 0dffb4fdda03f124a8eb872d6b0c9898, type: 3}
+  textMatchCode: {fileID: 215459413}
   footerViewNonHost: {fileID: 1398330578}
   footerViewHost: {fileID: 1189765376}
   buttonStartGame: {fileID: 1189765378}
-  buttonExit: {fileID: 1531345339}
-  prefabListItem: {fileID: 8036310066856356215, guid: 0dffb4fdda03f124a8eb872d6b0c9898, type: 3}
 --- !u!223 &1257140663 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 2973075439907162660, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
@@ -19997,7 +19997,7 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 674119907}
   m_HorizontalScrollbarVisibility: 2
-  m_VerticalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: -3
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:

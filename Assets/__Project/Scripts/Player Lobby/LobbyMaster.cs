@@ -125,8 +125,7 @@ namespace ReGaSLZR
             viewStarter.SetIsDisplayed(false);
             viewLoading.gameObject.SetActive(true);
 
-            viewPlayerList.ClearList();
-            viewPlayerList.PopulateList(players);
+            viewPlayerList.RefreshList(players);
 
             viewPlayerList.SetMatchCode(connectionGetter.GetMatchCode().Value);
             viewPlayerList.SetViewIsHost(connectionGetter.IsHost().Value);

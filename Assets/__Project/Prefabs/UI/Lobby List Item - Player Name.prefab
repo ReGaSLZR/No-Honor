@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5683152974209131457}
   - component: {fileID: 2139883846761401335}
   - component: {fileID: 6397302347279337189}
-  - component: {fileID: 8036310066856356215}
+  - component: {fileID: 7408458307331749449}
   m_Layer: 5
   m_Name: Lobby List Item - Player Name
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8036310066856356215
+--- !u!114 &7408458307331749449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,12 +86,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2246910053896251387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7c02fc08a1dce540ac429ba62051aef, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fc03b5ea5fc15c4fb20a372706997bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textName: {fileID: 4251922888260965483}
   colorNormal: {r: 1, g: 1, b: 1, a: 1}
-  colorHighlighted: {r: 0.09927912, g: 0.9150943, b: 0.25294626, a: 1}
+  colorHighlighted: {r: 0.09803922, g: 0.9137255, b: 0.25490198, a: 1}
   prefixHost: '[HOST] '
   suffixLocalPlayer: ' (You)'
 --- !u!1 &2652432053375021947

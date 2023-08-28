@@ -4,36 +4,41 @@ using UnityEngine;
 namespace ReGaSLZR
 {
 
-    public class LobbyListItemPlayerNameView : MonoBehaviour
+    public class PlayerListItemView : MonoBehaviour
     {
 
         #region Inspector Fields
 
         [SerializeField]
-        private TextMeshProUGUI textName;
+        protected TextMeshProUGUI textName;
 
         [Space]
 
         [SerializeField]
-        private Color colorNormal;
+        protected Color colorNormal;
 
         [SerializeField]
-        private Color colorHighlighted;
+        protected Color colorHighlighted;
 
         [Space]
 
         [SerializeField]
-        private string prefixHost;
+        protected string prefixHost;
 
         [SerializeField]
-        private string suffixLocalPlayer;
+        protected string suffixLocalPlayer;
 
         #endregion //Inspector Fields
 
         #region Public API
 
-        public void SetUp(PlayerModel player)
+        public virtual void SetUp(PlayerModel player)
         {
+            if (player == null)
+            {
+                return;
+            }
+
             textName.text = string.Concat(player.isHost ? prefixHost : string.Empty, 
                 player.playerName, player.isLocalPlayer ? suffixLocalPlayer : string.Empty);
 

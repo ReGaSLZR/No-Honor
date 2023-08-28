@@ -11,6 +11,9 @@ namespace ReGaSLZR
         /// </summary>
         INT_WEAPON = 1,
 
+        BOOL_IS_WINNER = 2,
+        INT_SURVIVE = 4,
+
     }
 
 }

@@ -14,13 +14,17 @@ namespace ReGaSLZR
 
         #region Public Fields
 
+        //Common
         public bool isLocalPlayer;
         public bool isHost;
         public string playerName = Constants.DEFAULT_NPC_NAME;
         public string playerId;
 
+        //Game-specific
         public int health = PLAYER_HEALTH_MAX;
         public Weapon weapon = Weapon.None;
+        public bool isWinner;
+        public int surviveTime;
 
         #endregion //Public Fields
 

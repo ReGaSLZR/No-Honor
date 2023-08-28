@@ -102,6 +102,7 @@ MonoBehaviour:
   spriteWinner: {fileID: 21300000, guid: efc5905b14f2043fca6bdb234e72a74c, type: 3}
   spriteLoser: {fileID: 21300000, guid: 9dde46eb5e29d40d7bfcfe0245d0377e, type: 3}
   detailsValue: Survived for {0} seconds
+  detailsAsWinner: EMERGED VICTORIOUS!!!
 --- !u!1 &1622018523093550065
 GameObject:
   m_ObjectHideFlags: 0

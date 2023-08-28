@@ -11,7 +11,10 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private CharacterStatsView view;
+        private CharacterStatsView viewStats;
+
+        [SerializeField]
+        private PlayerHUD viewHud;
 
         #endregion //Inspector Fields
 
@@ -21,11 +24,11 @@ namespace ReGaSLZR
         private readonly ReactiveProperty<bool> rIsPlayerDead 
             = new ReactiveProperty<bool>(false);
 
-        private ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
+        private readonly ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
 
         #region Accessors
 
-        public CharacterStatsView View => view;
+        public CharacterStatsView View => viewStats;
 
         public IReadOnlyReactiveProperty<bool> IsPlayerDead() => rIsPlayerDead;
         public IReadOnlyReactiveProperty<int> GetHealthDiminished() => rHealthChange;
@@ -35,23 +38,53 @@ namespace ReGaSLZR
 
         #region Unity Callbacks
 
+        private void Start()
+        {
+            rIsPlayerDead
+                .Where(_ => viewHud != null)
+                .Subscribe(isDead => viewHud.SetIsPlayerActive(!isDead))
+                .AddTo(this);
 
+            rIsPlayerDead
+                .Where(isDead => isDead)
+                .Subscribe(_ => RecordSurviveTime())
+                .AddTo(this);
+        }
 
         #endregion //Unity Callbacks
 
         #region Public API
+
+        public void SetUp(PlayerHUD hud) => viewHud = hud;
+
+        //TODO remove! For Unity Editor debugging only.
+        [NaughtyAttributes.Button] public void Test() => ApplyDamage(67); 
 
         public void ApplyDamage(int damage)
         {
             Debug.Log($"{GetType().Name}.ApplyDamage {damage}", gameObject);
             rModel.Value.health = Mathf.Clamp((rModel.Value.health - damage), PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
 
-            if (rModel.Value.health != PlayerModel.PLAYER_HEALTH_DEAD)
+            if (rModel.Value.health > PlayerModel.PLAYER_HEALTH_DEAD)
             {
-                view.AnimateHealthChangeFX(-damage);
+                viewStats.AnimateHealthChangeFX(-damage);
             }
 
             UpdateModel(rModel.Value);
+        }
+
+        public void RecordSurviveTime()
+        {
+            var model = rModel.Value;
+            model.surviveTime = (int)Time.timeSinceLevelLoad;
+            UpdateModel(model);
+        }
+
+        public void MarkAsWinner()
+        {
+            var model = rModel.Value;
+            model.isWinner = true;
+            UpdateModel(model);
         }
 
         public void UpdateModel(PlayerModel model)
@@ -65,7 +98,7 @@ namespace ReGaSLZR
             rHealthChange.SetValueAndForceNotify(-dim);
 
             rModel.SetValueAndForceNotify(model);
-            view.UpdateView(model);
+            viewStats.UpdateView(model);
         }
 
         #endregion //Public API

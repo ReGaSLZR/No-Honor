@@ -44428,7 +44428,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -81535,7 +81535,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1513, y: 20}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1127178686
 MonoBehaviour:
@@ -97896,6 +97896,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1359120686 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3307443275749237708, guid: f4430540fda3b794d8e88037e328edb2, type: 3}
+  m_PrefabInstance: {fileID: 1301102053}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1372418596
 GameObject:
   m_ObjectHideFlags: 0
@@ -98478,7 +98483,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewHud: {fileID: 1739351705}
-  leaderboardView: {fileID: 1746226918}
+  viewLeaderboard: {fileID: 1746226918}
+  viewLoading: {fileID: 1359120686}
   frameDelayRegister: 3
 --- !u!4 &1493215865
 Transform:
@@ -114981,11 +114987,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3180329712737942604, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
       propertyPath: m_Name
-      value: Canvas - Game Over
+      value: Canvas - LEADERBOARD Game Over
       objectReference: {fileID: 0}
     - target: {fileID: 3180329712737942604, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8082113359496010177, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
       propertyPath: m_Pivot.x

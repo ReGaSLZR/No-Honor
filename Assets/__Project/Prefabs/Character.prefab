@@ -554,7 +554,6 @@ MonoBehaviour:
   stats: {fileID: 3843575212101096173}
   itemPicker: {fileID: 7652384364750723426}
   itemUser: {fileID: 4389018451890831435}
-  viewHud: {fileID: 0}
 --- !u!114 &7652384364750723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,7 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a15e80ff8d7c91a4c89cff977187aff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  view: {fileID: 7652384365485592877}
+  viewStats: {fileID: 7652384365485592877}
+  viewHud: {fileID: 0}
 --- !u!1 &7652384364881784223
 GameObject:
   m_ObjectHideFlags: 0

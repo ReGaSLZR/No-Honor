@@ -27,12 +27,9 @@ namespace ReGaSLZR
         [SerializeField]
         private CharacterItemUser itemUser;
 
-        [Header("For Setting Up in Runtime")]
-
-        [SerializeField]
-        private PlayerHUD viewHud;
-
         #endregion //Inspector Fields
+
+        public CharacterStats Stats => stats;
 
         #region Client Impl
 
@@ -46,10 +43,11 @@ namespace ReGaSLZR
             gameObject.name = Constants.DEFAULT_NPC_NAME;
         }
 
-        private void SetUpAsLocalPlayer()
+        private void SetUpAsLocalPlayer(PlayerHUD hud)
         {
-            itemPicker.SetUp(viewHud);
-            itemUser.SetUp(viewHud);
+            itemPicker.SetUp(hud);
+            itemUser.SetUp(hud);
+            stats.SetUp(hud);
 
             var model = stats.Model.Value;
             model.isLocalPlayer = true;
@@ -63,7 +61,6 @@ namespace ReGaSLZR
         public void SetUp(bool isBot, PlayerHUD viewHud)
         {
             this.isBot = isBot;
-            this.viewHud = viewHud;
 
             if (isBot)
             {
@@ -71,7 +68,7 @@ namespace ReGaSLZR
             }
             else
             {
-                SetUpAsLocalPlayer();
+                SetUpAsLocalPlayer(viewHud);
             }
         }
 

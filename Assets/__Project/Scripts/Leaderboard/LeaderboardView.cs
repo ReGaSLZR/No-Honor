@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ReGaSLZR
@@ -18,7 +19,14 @@ namespace ReGaSLZR
 
         #endregion //Inspector Fields
 
+        public Character winner;
+
         #region Public API
+
+        public override void RefreshList(List<PlayerModel> players)
+        {
+            base.RefreshList(players);
+        }
 
         public void SetIsLocalWinner(bool isWinner)
         {

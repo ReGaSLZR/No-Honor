@@ -29,7 +29,7 @@ namespace ReGaSLZR
 
         #region Public API
 
-        public void RefreshList(List<PlayerModel> players)
+        public virtual void RefreshList(List<PlayerModel> players)
         {
             playerListParent.DestroyAllChildren();
 

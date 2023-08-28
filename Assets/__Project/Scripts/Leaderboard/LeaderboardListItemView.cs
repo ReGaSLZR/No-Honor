@@ -32,6 +32,9 @@ namespace ReGaSLZR
         [SerializeField]
         private string detailsValue;
 
+        [SerializeField]
+        private string detailsAsWinner;
+
         #endregion //Inspector Fields
 
         #region Overrides
@@ -42,7 +45,10 @@ namespace ReGaSLZR
 
             textName.color = player.isWinner ? colorWinner : textName.color;
             imageIcon.sprite = player.isWinner ? spriteWinner : spriteLoser;
-            textDetails.text = string.Format(detailsValue, player.surviveTime);
+
+            textDetails.color = player.isWinner ? colorWinner : colorNormal;
+            textDetails.text = player.isWinner 
+                ? detailsAsWinner : string.Format(detailsValue, player.surviveTime);
         }
 
         #endregion //Overrides

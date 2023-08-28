@@ -1,4 +1,3 @@
-
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -42,7 +41,7 @@ namespace ReGaSLZR
                 .Where(_ => Input.GetKeyDown(KeyCode.Return)) //TODO store keycode somewhere
                 .Select(_ => itemPicker.GetWeaponPicked().Value)
                 .Where(weapon => weapon != null)
-                .Where(_ => cachedWeaponOnUse == null || !cachedWeaponOnUse.IsInUse)
+                .Where(_ => cachedWeaponOnUse == null || !cachedWeaponOnUse.IsInUse().Value)
                 .Subscribe(OnUseWeapon)
                 .AddTo(this);
         }
@@ -57,21 +56,11 @@ namespace ReGaSLZR
 
         #region Client Impl
 
-        private void OnUseWeapon(WeaponAsPickable weapon)
+        protected virtual void UseWeapon(AWeaponAsUsable weaponToUse)
         {
-            AWeaponAsUsable weaponToUse = null;
-            foreach (var weaponOnDemand in weaponsOnDemand)
+            if(weaponToUse == null)
             {
-                if (weaponOnDemand.WeaponType == weapon.Type)
-                {
-                    weaponToUse = weaponOnDemand;
-                    break;
-                }
-            }
-
-            if (weaponToUse == null)
-            {
-                Debug.LogWarning($"{GetType().Name}.OnUseWeapon() failed. Couldn't find {weapon.Type} from list.");
+                Debug.LogWarning($"{GetType().Name}.OnUseWeapon() failed. Couldn't find weapon from list.");
                 return;
             }
 
@@ -84,14 +73,33 @@ namespace ReGaSLZR
                 characterAnimator.AnimateAttackWithWeapon(cachedWeaponOnUse.WeaponType);
                 SetUpWeponTargetDetection();
 
-                hudView.UpdateWeapon(Weapon.None);
+                if (hudView != null) 
+                {
+                    hudView.UpdateWeapon(Weapon.None);
+                }
+
                 itemPicker.ClearWeapon();
             }
             else
             {
-                Debug.LogWarning($"{GetType().Name}.OnUseWeapon() '{weapon.Type}'" +
+                Debug.LogWarning($"{GetType().Name}.OnUseWeapon() '{weaponToUse.WeaponType}'" +
                     $" still in use. Wait for its duration to be over.");
             }
+        }
+
+        private void OnUseWeapon(WeaponAsPickable weapon)
+        {
+            AWeaponAsUsable weaponToUse = null;
+            foreach (var weaponOnDemand in weaponsOnDemand)
+            {
+                if (weaponOnDemand.WeaponType == weapon.Type)
+                {
+                    weaponToUse = weaponOnDemand;
+                    break;
+                }
+            }
+
+            UseWeapon(weaponToUse);
         }
 
         private void SetUpWeponTargetDetection()
@@ -114,7 +122,7 @@ namespace ReGaSLZR
 
                 this.UpdateAsObservable()
                     .Where(_ => cachedWeaponOnUse.IsDamageOverTime)
-                    .Where(_ => cachedWeaponOnUse.IsInUse)
+                    .Where(_ => cachedWeaponOnUse.IsInUse().Value)
                     .Subscribe(_ => characterAnimator.AnimateAttackWithWeapon(cachedWeaponOnUse.WeaponType))
                     .AddTo(disposables);
             }

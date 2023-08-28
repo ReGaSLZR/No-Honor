@@ -115,8 +115,11 @@ namespace ReGaSLZR
 
         public void AnimateHealthChangeFX(int healthChange)
         {
-            StopAllCoroutines();
-            StartCoroutine(C_AnimateHealthChangeFX(healthChange));
+            if (rootView.activeInHierarchy || rootView.activeSelf)
+            {
+                StopAllCoroutines();
+                StartCoroutine(C_AnimateHealthChangeFX(healthChange));
+            }
         }
 
         #endregion //Public API

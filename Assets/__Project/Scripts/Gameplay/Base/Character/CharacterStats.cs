@@ -91,6 +91,13 @@ namespace ReGaSLZR
             UpdateModel(model);
         }
 
+        public void UpdateWeapon(Weapon weapon)
+        {
+            var model = rModel.Value;
+            model.weapon = weapon;
+            UpdateModel(model);
+        }
+
         public void UpdateModel(PlayerModel model, bool isForcedAnimate = false)
         {
             rIsPlayerDead.Value = Mathf.Clamp(model.health,

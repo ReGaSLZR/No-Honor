@@ -19,11 +19,16 @@ namespace ReGaSLZR
         protected override void Use()
         {
             gameObject.SetActive(true);
+            rIsInUse.Value = true;
             StopAllCoroutines();
             StartCoroutine(C_ActiveCountdown());
         }
 
-        public override void Deactivate() => gameObject.SetActive(false);
+        public override void Deactivate()
+        {
+            gameObject.SetActive(false);
+            rIsInUse.Value = false;
+        }
 
         protected override bool ShouldDeactivateOnCollision() => false;
         protected override bool ShouldDeactivateOnTargetDetection() => false;

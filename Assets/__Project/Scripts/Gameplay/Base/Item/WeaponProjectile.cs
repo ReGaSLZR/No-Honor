@@ -73,6 +73,7 @@ namespace ReGaSLZR
 
             viewOnImpact.SetActive(false);
             gameObject.SetActive(false);
+            rIsInUse.Value = false;
         }
 
         #endregion //Overrides
@@ -84,8 +85,17 @@ namespace ReGaSLZR
             viewNormal.SetActive(false);
             viewOnImpact.SetActive(true);
 
-            StopAllCoroutines();
-            StartCoroutine(C_Deactivate());
+            if (gameObject.activeInHierarchy || gameObject.activeSelf)
+            {
+                StopAllCoroutines();
+                StartCoroutine(C_Deactivate());
+            }
+            else
+            {
+                viewOnImpact.SetActive(false);
+                gameObject.SetActive(false);
+                rIsInUse.Value = false;
+            }
         }
 
         [NaughtyAttributes.Button] //only in Editor, debug
@@ -102,6 +112,7 @@ namespace ReGaSLZR
                 (spriteForDirection.flipX ? -1f : 1f), fireDirection.y);
             rigidBody2D.AddForce(direction * force, ForceMode2D.Impulse);
             rigidBody2D.AddTorque(torque);
+            rIsInUse.Value = true;
         }
 
         #endregion //Public API

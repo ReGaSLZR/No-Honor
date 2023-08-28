@@ -39,6 +39,7 @@ namespace ReGaSLZR
         protected Rigidbody2D rigidBody2D;
 
         protected readonly ReactiveProperty<bool> rIsTargetDetected = new ReactiveProperty<bool>();
+        protected readonly ReactiveProperty<bool> rIsInUse = new ReactiveProperty<bool>();
 
         #region Abstracts
 
@@ -94,13 +95,13 @@ namespace ReGaSLZR
         public int DamageValue => damage;
         public bool IsDamageOverTime => isDamageOverTime;
         public float DamageOverTimeInterval => damageOverTimeInterval;
-        public bool IsInUse => (gameObject.activeInHierarchy || gameObject.activeSelf);
 
         public IReactiveProperty<bool> IsTargetDetected() => rIsTargetDetected;
+        public IReactiveProperty<bool> IsInUse() => rIsInUse;
 
         public bool AttemptUse()
         {
-            if (IsInUse)
+            if (rIsInUse.Value)
             {
                 return false;
             }

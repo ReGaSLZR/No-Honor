@@ -14,6 +14,12 @@ namespace ReGaSLZR
         [Header("UI Elements")]
 
         [SerializeField]
+        private GameObject childOnPlayerActive;
+
+        [SerializeField]
+        private GameObject childOnPlayerDead;
+
+        [SerializeField]
         private Image imageWeaponIcon;
 
         [SerializeField]
@@ -53,11 +59,18 @@ namespace ReGaSLZR
         {
             StartCoroutine(C_DelayHideInstructions());
             UpdateWeapon(Weapon.None, 0);
+            SetIsPlayerActive(true);
         }
 
         #endregion //Unity Callbacks
 
         #region Public API
+
+        public void SetIsPlayerActive(bool isActive)
+        {
+            childOnPlayerActive.SetActive(isActive);
+            childOnPlayerDead.SetActive(!isActive);
+        }
 
         public void UpdateWeapon(Weapon weapon, uint quantity = 0)
         {

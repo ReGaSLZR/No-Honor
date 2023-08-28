@@ -7,6 +7,10 @@ namespace ReGaSLZR
     public static class PhotonUtil
     {
 
+
+
+        #region Client Impl
+
         private static T GetValue<T>(this Hashtable props, string key, T defaultValue)
         {
             if (props.ContainsKey(key))
@@ -16,6 +20,10 @@ namespace ReGaSLZR
 
             return defaultValue;
         }
+
+        #endregion //Client Impl
+
+        #region Public API
 
         public static PlayerModel GetPlayerModel(this Player player)
         {
@@ -47,6 +55,8 @@ namespace ReGaSLZR
 
             return hash;
         }
+
+        #endregion //Public API
 
     }
 

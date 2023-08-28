@@ -10,14 +10,14 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField] 
-        private List<ObjectInPool> listObjectsInPool;
+        protected List<ObjectInPool> listObjectsInPool;
 
         [SerializeField]
-        private SpawnPoints spawnPoints;
+        protected SpawnPoints spawnPoints;
 
         #endregion //Inspector Fields
 
-        private int itemIndex = 0;
+        protected int itemIndex = 0;
 
         #region Unity Callbacks
 

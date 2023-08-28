@@ -84,6 +84,7 @@ namespace ReGaSLZR
         private RoomOptions CreateFreshRoomOptions()
         {
             var roomOptions = new RoomOptions();
+            roomOptions.PublishUserId = true;
             roomOptions.CustomRoomProperties = new Hashtable();
             roomOptions.CustomRoomProperties.Add(
                 MatchProperty.BOOL_IS_LOADING.ToString(), false);

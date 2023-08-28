@@ -1,3 +1,4 @@
+
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -12,29 +13,29 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private CharacterAnimator characterAnimator;
+        protected CharacterAnimator characterAnimator;
 
         [SerializeField]
-        private AWeaponAsUsable[] weaponsOnDemand;
+        protected AWeaponAsUsable[] weaponsOnDemand;
 
         [Header("Runtime set")]
 
         [SerializeField]
-        private PlayerHUD hudView;
+        protected PlayerHUD hudView;
 
         #endregion //Inspector Fields
 
-        private CharacterItemPicker itemPicker;
-        private AWeaponAsUsable cachedWeaponOnUse;
-        private float cachedWeaponUseTimeEnd;
+        protected CharacterItemPicker itemPicker;
+        protected AWeaponAsUsable cachedWeaponOnUse;
+        protected float cachedWeaponUseTimeEnd;
 
-        private CompositeDisposable disposables = new CompositeDisposable();
+        protected CompositeDisposable disposables = new CompositeDisposable();
 
         #region Unity Callbacks
 
-        private void Awake() => itemPicker = GetComponent<CharacterItemPicker>();
+        protected virtual void Awake() => itemPicker = GetComponent<CharacterItemPicker>();
 
-        private void Start()
+        protected virtual void Start()
         {
             this.UpdateAsObservable()
                 .Where(_ => enabled)

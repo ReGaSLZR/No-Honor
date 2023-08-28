@@ -549,11 +549,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 873e80c5428cf304ea802cb0a7e79bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBot: 0
   movt: {fileID: 7652384364750723427}
   stats: {fileID: 3843575212101096173}
   itemPicker: {fileID: 7652384364750723426}
   itemUser: {fileID: 4389018451890831435}
+  targetDetectors:
+  - {fileID: 7652384366081703581}
+  - {fileID: 7652384364714031143}
+  - {fileID: 7652384364931026871}
+  - {fileID: 7652384364259663989}
+  - {fileID: 7652384364552875371}
 --- !u!114 &7652384364750723427
 MonoBehaviour:
   m_ObjectHideFlags: 0

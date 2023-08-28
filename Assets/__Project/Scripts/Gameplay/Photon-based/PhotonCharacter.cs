@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UniRx;
 
 namespace ReGaSLZR
 {
@@ -20,15 +21,47 @@ namespace ReGaSLZR
 
         private void Start()
         {
-            if (!photonView.AmOwner)
+            if (!photonView.Owner.IsLocal)
             {
                 SetUpAsNPC();
             }
 
-            stats.UpdateModel(photonView.Owner.GetPlayerModel());
+            UpdatePhotonModelToLocal();
+
+            stats.Model
+                .Where(_ => photonView.Owner.IsLocal)
+                .Subscribe(UpdatePhotonModelToCopies)
+                .AddTo(this);
         }
 
         #endregion //Unity Callbacks
+
+        #region Client Impl
+
+        private void UpdatePhotonModelToLocal(bool shouldAnimateDamageFX = false) 
+            => stats.UpdateModel(photonView.Owner.GetPlayerModel(), shouldAnimateDamageFX);
+
+        private void UpdatePhotonModelToCopies(PlayerModel model)
+        {
+            PhotonNetwork.SetPlayerCustomProperties(model.GetProperties());
+            photonView.RPC("RPC_PlayerCopyPropertiesUpdate", 
+                RpcTarget.Others, photonView.Owner.UserId);
+        }
+
+        [PunRPC]
+        private void RPC_PlayerCopyPropertiesUpdate(string playerId)
+        {
+            Debug.Log($"{GetType().Name}.RPC_PlayerCopyPropertiesUpdate()", gameObject);
+
+            if (!playerId.Equals(photonView.Owner.UserId))
+            {
+                return;
+            }
+
+            UpdatePhotonModelToLocal(true);
+        }
+
+        #endregion //Client Impl
 
     }
 

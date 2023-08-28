@@ -11,20 +11,20 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private CharacterStatsView viewStats;
+        protected CharacterStatsView viewStats;
 
         [SerializeField]
-        private PlayerHUD viewHud;
+        protected PlayerHUD viewHud;
 
         #endregion //Inspector Fields
 
-        private readonly ReactiveProperty<PlayerModel> rModel 
+        protected readonly ReactiveProperty<PlayerModel> rModel 
             = new ReactiveProperty<PlayerModel>(new PlayerModel());
 
-        private readonly ReactiveProperty<bool> rIsPlayerDead 
+        protected readonly ReactiveProperty<bool> rIsPlayerDead 
             = new ReactiveProperty<bool>(false);
 
-        private readonly ReactiveProperty<int> rHealthChange 
+        protected readonly ReactiveProperty<int> rHealthChange 
             = new ReactiveProperty<int>(0);
 
         #region Accessors
@@ -39,7 +39,7 @@ namespace ReGaSLZR
 
         #region Unity Callbacks
 
-        private void Start()
+        protected virtual void Start()
         {
             rIsPlayerDead
                 .Where(_ => viewHud != null)
@@ -59,11 +59,11 @@ namespace ReGaSLZR
         public void SetUp(PlayerHUD hud) => viewHud = hud;
 
         //TODO remove! For Unity Editor debugging only.
-        [NaughtyAttributes.Button] public void Test() => ApplyDamage(67); 
+        [NaughtyAttributes.Button] public void Test() => ApplyDamage(67);
 
         public void ApplyDamage(int damage)
         {
-            Debug.Log($"{GetType().Name}.ApplyDamage {damage}", gameObject);
+            Debug.Log($"ApplyDamage {damage} on {gameObject.name}", gameObject);
             rModel.Value.health = Mathf.Clamp((rModel.Value.health - damage), PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
 
             if (rModel.Value.health > PlayerModel.PLAYER_HEALTH_DEAD)
@@ -91,15 +91,20 @@ namespace ReGaSLZR
             UpdateModel(model);
         }
 
-        public void UpdateModel(PlayerModel model)
+        public void UpdateModel(PlayerModel model, bool isForcedAnimate = false)
         {
             rIsPlayerDead.Value = Mathf.Clamp(model.health,
                 PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX)
                 == PlayerModel.PLAYER_HEALTH_DEAD;
 
             var dim = Mathf.Clamp(rModel.Value.health - model.health,
-                0, PlayerModel.PLAYER_HEALTH_MAX);
+                PlayerModel.PLAYER_HEALTH_DEAD, PlayerModel.PLAYER_HEALTH_MAX);
             rHealthChange.SetValueAndForceNotify(-dim);
+
+            if (isForcedAnimate && (dim != 0))
+            {
+                viewStats.AnimateHealthChangeFX(dim);
+            }
 
             rModel.SetValueAndForceNotify(model);
             viewStats.UpdateView(model);

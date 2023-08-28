@@ -7,12 +7,6 @@ namespace ReGaSLZR
     public class PhotonCharacterSpawner : CharacterSpawner
     {
 
-        #region Unity Callbacks
-
-        
-
-        #endregion //Unity Callbacks
-
         #region Protected Virtuals
 
         protected override Character InstantiateCharacter(Transform spawnPoint)

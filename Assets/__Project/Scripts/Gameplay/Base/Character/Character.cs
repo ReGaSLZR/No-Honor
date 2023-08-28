@@ -22,6 +22,9 @@ namespace ReGaSLZR
         [SerializeField]
         protected CharacterItemUser itemUser;
 
+        [SerializeField]
+        protected TargetDetector[] targetDetectors;
+
         #endregion //Inspector Fields
 
         public CharacterStats Stats => stats;
@@ -47,6 +50,11 @@ namespace ReGaSLZR
             var model = stats.Model.Value;
             model.isLocalPlayer = true;
             stats.UpdateModel(model);
+
+            foreach (var detector in targetDetectors)
+            {
+                detector.gameObject.SetActive(false);
+            }
         }
 
         #endregion //Client Impl

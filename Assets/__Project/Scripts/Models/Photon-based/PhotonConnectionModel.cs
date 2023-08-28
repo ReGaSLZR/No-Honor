@@ -107,7 +107,10 @@ namespace ReGaSLZR
 
         private void UpdatePlayers()
         {
+            PhotonNetwork.SetPlayerCustomProperties(
+                PhotonNetwork.LocalPlayer.ResetPlayerModel());
             RefreshIsHostStatus();
+
             var players = PhotonNetwork.CurrentRoom.Players.Values;
             Debug.Log($"{GetType().Name} UpdatePlayers: Count is: {players.Count}");
             rPlayers.Value.Clear();
@@ -122,8 +125,7 @@ namespace ReGaSLZR
             var list = new List<PlayerModel>();
             foreach (var playa in players)
             {
-                list.Add(new PlayerModel(playa.NickName, playa.UserId,
-                    playa.IsLocal, playa.IsMasterClient));
+                list.Add(playa.GetPlayerModel());
             }
 
             rPlayers.SetValueAndForceNotify(list);

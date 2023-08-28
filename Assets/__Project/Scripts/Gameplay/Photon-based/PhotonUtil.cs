@@ -7,8 +7,6 @@ namespace ReGaSLZR
     public static class PhotonUtil
     {
 
-
-
         #region Client Impl
 
         private static T GetValue<T>(this Hashtable props, string key, T defaultValue)
@@ -19,6 +17,18 @@ namespace ReGaSLZR
             }
 
             return defaultValue;
+        }
+
+        private static void SetValue(this Hashtable props, string key, object value)
+        {
+            if (props.ContainsKey(key))
+            {
+                props[key] = value;
+            }
+            else
+            {
+                props.Add(key, value);
+            }
         }
 
         #endregion //Client Impl
@@ -42,6 +52,18 @@ namespace ReGaSLZR
                 PlayerProperty.INT_SURVIVE.ToString(), 0);
 
             return model;
+        }
+
+        public static Hashtable ResetPlayerModel(this Player player)
+        {
+            var hash = player.CustomProperties;
+
+            hash.SetValue(PlayerProperty.INT_HEALTH.ToString(), PlayerModel.PLAYER_HEALTH_MAX);
+            hash.SetValue(PlayerProperty.INT_WEAPON.ToString(), (int)Weapon.None);
+            hash.SetValue(PlayerProperty.BOOL_IS_WINNER.ToString(), false);
+            hash.SetValue(PlayerProperty.INT_SURVIVE.ToString(), 0);
+
+            return hash;
         }
 
         public static Hashtable GetProperties(this PlayerModel playerModel)

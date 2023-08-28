@@ -25,9 +25,26 @@ namespace ReGaSLZR
         [Space]
 
         [SerializeField]
+        private ObjectPooler itemPool;
+
+        [Space]
+
+        [SerializeField]
         [Tooltip("The delay is to wait for the Start() in the Character to be done first.")]
         [Range(0, 10)]
         private uint frameDelayRegister = 1;
+
+        [SerializeField]
+        [Range(10, 30)]
+        private uint itemSpawnsClearInterval;
+
+        [SerializeField]
+        [Range(0, 10)]
+        private uint itemSpawnInterval;
+
+        [SerializeField]
+        [Range(1, 10)]
+        private uint itemSpawnCount;
 
         #endregion //Inspector Fields
 
@@ -37,23 +54,56 @@ namespace ReGaSLZR
         private readonly List<Character> characters = new List<Character>();
         private Character localPlayer;
 
+        private WaitForSeconds itemSpawnDelay;
+        private WaitForSeconds itemClearDelay;
+
         #region Unity Callbacks
 
         private void Awake()
         {
+            itemSpawnDelay = new WaitForSeconds(itemSpawnInterval);
+            itemClearDelay = new WaitForSeconds(itemSpawnsClearInterval);
+
             viewLeaderboard.RegisterOnExit(OnExitGame);
             viewHud.RegisterOnExit(OnExitGame);
+
+            viewLoading.SetActive(false);
+            viewLeaderboard.SetIsDisplayed(false);
         }
 
         private void Start()
         {
-            viewLoading.SetActive(false);
-            viewLeaderboard.SetIsDisplayed(false);
+            StartCoroutine(C_SpawnItems());
+            StartCoroutine(C_ClearItems());
         }
 
         #endregion //Unity Callbacks
 
         #region Client Impl
+
+        private IEnumerator C_SpawnItems()
+        { 
+            while(characters.Count > 0)
+            {
+                var itemCount = 0;
+                while (itemCount < itemSpawnCount)
+                {
+                    itemPool.GetRandomObjectToRandomPosition();
+                    itemCount++;
+                }
+
+                yield return itemSpawnDelay;
+            }
+        }
+
+        private IEnumerator C_ClearItems()
+        {
+            while (characters.Count > 0)
+            {
+                itemPool.HideAllObjectsInPool();
+                yield return itemClearDelay;
+            }
+        }
 
         private void OnExitGame()
         {

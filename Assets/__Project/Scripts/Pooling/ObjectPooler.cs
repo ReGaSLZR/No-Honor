@@ -23,7 +23,7 @@ namespace ReGaSLZR
 
         private void Awake()
         {
-            DeactivateAllInPool();
+            HideAllObjectsInPool();
         }
 
         private void OnDestroy()
@@ -68,7 +68,7 @@ namespace ReGaSLZR
             return itemFromPool;
         }
 
-        [NaughtyAttributes.Button]
+        [NaughtyAttributes.Button] //TODO remove this later. Only for Editor quick play-test
         public GameObject GetRandomObjectToRandomPosition()
         {
             int newIndex;
@@ -76,7 +76,9 @@ namespace ReGaSLZR
             {
                 newIndex = Random.Range(0, listObjectsInPool.Count);
             }
-            while (newIndex == itemIndex);
+            while ((newIndex == itemIndex) 
+                || (listObjectsInPool[newIndex].gameObject.activeInHierarchy) 
+                || (listObjectsInPool[newIndex].gameObject.activeSelf));
 
             itemIndex = newIndex;
             GameObject itemFromPool = listObjectsInPool[newIndex].gameObject;
@@ -89,11 +91,7 @@ namespace ReGaSLZR
             return itemFromPool;
         }
 
-        #endregion //Public API
-
-        #region Client Impl
-
-        private void DeactivateAllInPool()
+        public void HideAllObjectsInPool()
         {
             for (int x = (listObjectsInPool.Count - 1); x >= 0; x--)
             {
@@ -110,6 +108,10 @@ namespace ReGaSLZR
                 }
             }
         }
+
+        #endregion //Public API
+
+        #region Client Impl
 
         private void MoveToNextIndex()
         {

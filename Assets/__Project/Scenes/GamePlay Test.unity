@@ -6201,6 +6201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230640781}
+  - component: {fileID: 230640782}
   m_Layer: 0
   m_Name: SPAWN POINTS
   m_TagString: Untagged
@@ -6239,6 +6240,36 @@ Transform:
   m_Father: {fileID: 756061345}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &230640782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230640780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389ebf33b9ce3d44e817dd1ff9b1cbf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 597350099}
+  - {fileID: 1613742875}
+  - {fileID: 1145990556}
+  - {fileID: 1311988857}
+  - {fileID: 1862987199}
+  - {fileID: 1784151439}
+  - {fileID: 288822622}
+  - {fileID: 1784550514}
+  - {fileID: 1210769617}
+  - {fileID: 1320527526}
+  - {fileID: 1527503933}
+  - {fileID: 1502351058}
+  - {fileID: 210939157}
+  - {fileID: 1315091989}
+  - {fileID: 1578920156}
+  - {fileID: 149661646}
+  - {fileID: 962295729}
 --- !u!1 &248056592
 GameObject:
   m_ObjectHideFlags: 0
@@ -6803,7 +6834,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEADERBOARD
+  m_text: Leaderboard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
@@ -28796,24 +28827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   master: {fileID: 1493215864}
-  spawnPoints:
-  - {fileID: 597350099}
-  - {fileID: 1613742875}
-  - {fileID: 1145990556}
-  - {fileID: 1311988857}
-  - {fileID: 1862987199}
-  - {fileID: 1784151439}
-  - {fileID: 288822622}
-  - {fileID: 1784550514}
-  - {fileID: 1210769617}
-  - {fileID: 1320527526}
-  - {fileID: 1527503933}
-  - {fileID: 1502351058}
-  - {fileID: 210939157}
-  - {fileID: 1315091989}
-  - {fileID: 1578920156}
-  - {fileID: 149661646}
-  - {fileID: 962295729}
+  spawnPoints: {fileID: 230640782}
   prefabCharBrain: {fileID: 7652384364750723429, guid: e6107de194feba54a80018031ceb1753, type: 3}
   botCount: 3
 --- !u!4 &601262459
@@ -44491,7 +44505,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -81598,7 +81612,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -1513, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1127178686
 MonoBehaviour:
@@ -98022,24 +98036,7 @@ MonoBehaviour:
   - {fileID: 1016877153}
   - {fileID: 2016578024}
   - {fileID: 1443600729}
-  spawnPoints:
-  - {fileID: 597350099}
-  - {fileID: 1613742875}
-  - {fileID: 1145990556}
-  - {fileID: 1311988857}
-  - {fileID: 1862987199}
-  - {fileID: 1784151439}
-  - {fileID: 288822622}
-  - {fileID: 1784550514}
-  - {fileID: 1210769617}
-  - {fileID: 1320527526}
-  - {fileID: 1527503933}
-  - {fileID: 1502351058}
-  - {fileID: 210939157}
-  - {fileID: 1315091989}
-  - {fileID: 1578920156}
-  - {fileID: 149661646}
-  - {fileID: 962295729}
+  spawnPoints: {fileID: 230640782}
 --- !u!1 &1381363413
 GameObject:
   m_ObjectHideFlags: 0
@@ -115055,7 +115052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3180329712737942604, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8082113359496010177, guid: c038a2c9a23dd0f44b3889f8b21ac388, type: 3}
       propertyPath: m_Pivot.x

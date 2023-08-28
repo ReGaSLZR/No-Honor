@@ -13,7 +13,7 @@ namespace ReGaSLZR
         private List<ObjectInPool> listObjectsInPool;
 
         [SerializeField]
-        private Transform[] spawnPoints;
+        private SpawnPoints spawnPoints;
 
         #endregion //Inspector Fields
 
@@ -65,19 +65,25 @@ namespace ReGaSLZR
             itemFromPool.SetActive(true);
 
             MoveToNextIndex();
-
             return itemFromPool;
         }
 
         [NaughtyAttributes.Button]
         public GameObject GetRandomObjectToRandomPosition()
         {
-            var itemIndex = Random.Range(0, listObjectsInPool.Count);
-            GameObject itemFromPool = listObjectsInPool[itemIndex].gameObject;
+            int newIndex;
+            do 
+            {
+                newIndex = Random.Range(0, listObjectsInPool.Count);
+            }
+            while (newIndex == itemIndex);
 
-            var spawnIndex = Random.Range(0, spawnPoints.Length);
+            itemIndex = newIndex;
+            GameObject itemFromPool = listObjectsInPool[newIndex].gameObject;
+
+            var spawnPoint = spawnPoints.GetRandomSpawnPoint();
             itemFromPool.transform.SetPositionAndRotation(
-                spawnPoints[spawnIndex].position, spawnPoints[spawnIndex].rotation);
+                spawnPoint.position, spawnPoint.rotation);
             itemFromPool.SetActive(true);
 
             return itemFromPool;

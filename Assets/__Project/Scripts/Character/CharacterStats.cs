@@ -76,6 +76,8 @@ namespace ReGaSLZR
 
         public void RecordSurviveTime()
         {
+            viewStats.SetIsDisplayed(false);
+
             var model = rModel.Value;
             model.surviveTime = (int)Time.timeSinceLevelLoad;
             model.isWinner = false;

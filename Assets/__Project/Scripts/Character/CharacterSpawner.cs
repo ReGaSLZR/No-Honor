@@ -13,7 +13,7 @@ namespace ReGaSLZR
         private GameMaster master;
 
         [SerializeField]
-        private Transform[] spawnPoints;
+        private SpawnPoints spawnPoints;
 
         [Space]
 
@@ -29,12 +29,8 @@ namespace ReGaSLZR
 
         #region Unity Callbacks
 
-        private IEnumerator Start()
+        private void Start()
         {
-            yield return null;
-            yield return null;
-            yield return null;
-
             SpawnNPCs();
             SpawnCharacter(false);
         }
@@ -55,9 +51,9 @@ namespace ReGaSLZR
 
         private void SpawnCharacter(bool isBot)
         {
-            var index = Random.Range(0, spawnPoints.Length);
+            var spawnPoint = spawnPoints.GetRandomSpawnPoint();
             var chara = Instantiate(prefabCharBrain, 
-                spawnPoints[index].position, spawnPoints[index].rotation);
+                spawnPoint.position, spawnPoint.rotation);
             master.RegisterCharacter(chara, isBot);
         }
 

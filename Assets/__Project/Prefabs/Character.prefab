@@ -1382,9 +1382,9 @@ MonoBehaviour:
   viewNormal: {fileID: 7652384366049969395}
   viewOnImpact: {fileID: 7652384364346551611}
   delayBeforeInactivity: 0.5
-  fireDirection: {x: 1, y: 0.5}
+  fireDirection: {x: 0.75, y: 0.75}
   force: 5
-  torque: 2
+  torque: 3
 --- !u!1 &7652384365899910636
 GameObject:
   m_ObjectHideFlags: 0

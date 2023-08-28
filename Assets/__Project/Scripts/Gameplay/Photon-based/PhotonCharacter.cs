@@ -24,6 +24,8 @@ namespace ReGaSLZR
             {
                 SetUpAsNPC();
             }
+
+            stats.UpdateModel(photonView.Owner.GetPlayerModel());
         }
 
         #endregion //Unity Callbacks

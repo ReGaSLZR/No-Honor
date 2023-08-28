@@ -30093,7 +30093,7 @@ MonoBehaviour:
   master: {fileID: 1493215864}
   spawnPoints: {fileID: 230640782}
   prefabCharBrain: {fileID: 7652384364750723429, guid: e6107de194feba54a80018031ceb1753, type: 3}
-  botCount: 3
+  botCount: 0
 --- !u!4 &601262459
 Transform:
   m_ObjectHideFlags: 0

@@ -8,24 +8,19 @@ namespace ReGaSLZR
 
         #region Inspector Fields
 
-        [SerializeField]
-        private bool isBot;
-
-        [Space]
-
         [Header("Components")]
 
         [SerializeField]
-        private CharacterMovement movt;
+        protected CharacterMovement movt;
 
         [SerializeField]
-        private CharacterStats stats;
+        protected CharacterStats stats;
 
         [SerializeField]
-        private CharacterItemPicker itemPicker;
+        protected CharacterItemPicker itemPicker;
 
         [SerializeField]
-        private CharacterItemUser itemUser;
+        protected CharacterItemUser itemUser;
 
         #endregion //Inspector Fields
 
@@ -33,7 +28,7 @@ namespace ReGaSLZR
 
         #region Client Impl
 
-        private void SetUpAsNPC()
+        protected void SetUpAsNPC()
         {
             movt.enabled = false;
             itemUser.enabled = false;
@@ -43,7 +38,7 @@ namespace ReGaSLZR
             gameObject.name = Constants.DEFAULT_NPC_NAME;
         }
 
-        private void SetUpAsLocalPlayer(PlayerHUD hud)
+        protected void SetUpAsLocalPlayer(PlayerHUD hud)
         {
             itemPicker.SetUp(hud);
             itemUser.SetUp(hud);
@@ -60,8 +55,6 @@ namespace ReGaSLZR
 
         public void SetUp(bool isBot, PlayerHUD viewHud)
         {
-            this.isBot = isBot;
-
             if (isBot)
             {
                 SetUpAsNPC();

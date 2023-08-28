@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace ReGaSLZR
@@ -10,26 +9,26 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private GameMaster master;
+        protected GameMaster master;
 
         [SerializeField]
-        private SpawnPoints spawnPoints;
+        protected SpawnPoints spawnPoints;
 
         [Space]
 
         [SerializeField]
-        private Character prefabCharBrain;
+        protected Character prefabCharBrain;
 
         [Header("Settings")]
 
         [SerializeField]
-        private uint botCount = 0;
+        protected uint botCount = 0;
 
         #endregion //Inspector Fields
 
         #region Unity Callbacks
 
-        private void Start()
+        protected virtual void Start()
         {
             SpawnNPCs();
             SpawnCharacter(false);
@@ -51,13 +50,18 @@ namespace ReGaSLZR
 
         private void SpawnCharacter(bool isBot)
         {
-            var spawnPoint = spawnPoints.GetRandomSpawnPoint();
-            var chara = Instantiate(prefabCharBrain, 
-                spawnPoint.position, spawnPoint.rotation);
+            var chara = InstantiateCharacter(spawnPoints.GetRandomSpawnPoint());
             master.RegisterCharacter(chara, isBot);
         }
 
         #endregion //Client Impl
+
+        #region Protected Virtuals
+
+        protected virtual Character InstantiateCharacter(Transform spawnPoint) =>
+            Instantiate(prefabCharBrain, spawnPoint.position, spawnPoint.rotation);
+
+        #endregion //Protected Virtuals
 
     }
 

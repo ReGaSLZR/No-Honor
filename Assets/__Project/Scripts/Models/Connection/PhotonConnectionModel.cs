@@ -95,7 +95,11 @@ namespace ReGaSLZR
         private void EstablishConnection(string playerName, string matchCode)
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
-            PhotonNetwork.ConnectUsingSettings();
+
+            if (!PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
             
             rMatchCode.Value = matchCode;
         }

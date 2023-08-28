@@ -71,7 +71,7 @@ namespace ReGaSLZR
             viewLeaderboard.SetIsDisplayed(false);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             StartCoroutine(C_SpawnItems());
             StartCoroutine(C_ClearItems());
@@ -115,7 +115,7 @@ namespace ReGaSLZR
             viewLoading.SetActive(true);
             viewLeaderboard.SetIsDisplayed(false);
 
-            SceneManager.LoadScene(sceneModel.SceneLobby);
+            DoExitGame();
         }
 
         private IEnumerator C_DelayedSetUpOfCharacter(Character character, bool isBot)
@@ -200,6 +200,13 @@ namespace ReGaSLZR
         }
 
         #endregion //Public API
+
+        #region Protected Virtuals
+
+        protected virtual void DoExitGame() =>
+            SceneManager.LoadScene(sceneModel.SceneLobby);
+
+        #endregion //Protected Virtuals
 
     }
 

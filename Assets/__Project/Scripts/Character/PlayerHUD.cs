@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,9 @@ namespace ReGaSLZR
 
         [SerializeField]
         private CanvasGroup movementInstructions;
+
+        [SerializeField]
+        private Button buttonExit;
 
         [Space]
 
@@ -82,6 +86,8 @@ namespace ReGaSLZR
             textWeaponUse.text = quantity.ToString();
             textWeaponUse.gameObject.SetActive(quantity > 0);
         }
+
+        public void RegisterOnExit(Action action) => buttonExit.onClick.AddListener(action.Invoke);
 
         #endregion //Public API
 

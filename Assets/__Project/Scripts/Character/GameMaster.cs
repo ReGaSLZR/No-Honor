@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using Zenject;
+using UnityEngine.SceneManagement;
 
 namespace ReGaSLZR
 {
@@ -29,9 +31,19 @@ namespace ReGaSLZR
 
         #endregion //Inspector Fields
 
+        [Inject]
+        private readonly SceneModel sceneModel;
+
         private readonly List<Character> characters = new List<Character>();
+        private Character localPlayer;
 
         #region Unity Callbacks
+
+        private void Awake()
+        {
+            viewLeaderboard.RegisterOnExit(OnExitGame);
+            viewHud.RegisterOnExit(OnExitGame);
+        }
 
         private void Start()
         {
@@ -43,6 +55,19 @@ namespace ReGaSLZR
 
         #region Client Impl
 
+        private void OnExitGame()
+        {
+            if (localPlayer != null)
+            {
+                localPlayer.Stats.RecordSurviveTime();
+            }
+
+            viewLoading.SetActive(true);
+            viewLeaderboard.SetIsDisplayed(false);
+
+            SceneManager.LoadScene(sceneModel.SceneLobby);
+        }
+
         private IEnumerator C_DelayedSetUpOfCharacter(Character character, bool isBot)
         {
             uint delay = 0;
@@ -50,6 +75,11 @@ namespace ReGaSLZR
             {
                 yield return null;
                 delay++;
+            }
+
+            if (localPlayer == null && !isBot)
+            {
+                localPlayer = character;
             }
 
             character.SetUp(isBot, viewHud);
@@ -62,7 +92,6 @@ namespace ReGaSLZR
         private void CheckGameStatus()
         {
             var survivors = 0;
-            Character localPlayer = null;
             Character lastDetectedSurvivor = null;
             var models = new List<PlayerModel>();
 
@@ -75,11 +104,6 @@ namespace ReGaSLZR
                 {
                     survivors++;
                     lastDetectedSurvivor = chara;
-                }
-
-                if(model.isLocalPlayer)
-                {
-                    localPlayer = chara;
                 }
 
                 if (survivors > 1)
@@ -111,6 +135,8 @@ namespace ReGaSLZR
             {
                 chara.gameObject.SetActive(false);
             }
+
+            characters.Clear();
         }
 
         #endregion //Client Impl

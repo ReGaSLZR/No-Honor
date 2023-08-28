@@ -4,7 +4,10 @@ using Zenject;
 namespace ReGaSLZR
 {
 
-    public class SceneInstaller : MonoInstaller
+    [CreateAssetMenu(
+        menuName = "ReGaSLZR / Create new Scene Model", 
+        fileName = "Scene Model")]
+    public class SceneInstaller : ScriptableObjectInstaller
     {
 
         [SerializeField]

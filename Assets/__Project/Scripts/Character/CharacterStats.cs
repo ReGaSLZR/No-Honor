@@ -24,7 +24,8 @@ namespace ReGaSLZR
         private readonly ReactiveProperty<bool> rIsPlayerDead 
             = new ReactiveProperty<bool>(false);
 
-        private readonly ReactiveProperty<int> rHealthChange = new ReactiveProperty<int>(0);
+        private readonly ReactiveProperty<int> rHealthChange 
+            = new ReactiveProperty<int>(0);
 
         #region Accessors
 
@@ -77,6 +78,7 @@ namespace ReGaSLZR
         {
             var model = rModel.Value;
             model.surviveTime = (int)Time.timeSinceLevelLoad;
+            model.isWinner = false;
             UpdateModel(model);
         }
 

@@ -7592,7 +7592,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1511513976}
   m_HandleRect: {fileID: 1511513975}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -22101,7 +22101,7 @@ GameObject:
   - component: {fileID: 2006662984}
   - component: {fileID: 2006662982}
   m_Layer: 0
-  m_Name: Connection Model
+  m_Name: Connection Model (PHOTON)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

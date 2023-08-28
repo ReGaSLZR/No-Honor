@@ -100,8 +100,8 @@ namespace ReGaSLZR
         {
             while (characters.Count > 0)
             {
-                itemPool.HideAllObjectsInPool();
                 yield return itemClearDelay;
+                itemPool.HideAllObjectsInPool();
             }
         }
 

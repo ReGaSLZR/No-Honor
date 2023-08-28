@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/__Project/Scenes/Player Lobby.unity
     guid: 195076f1c73c9f74b9d50d97a7449c58
-  - enabled: 1
-    path: Assets/__Project/Scenes/GamePlay Test.unity
+  - enabled: 0
+    path: Assets/__Project/Scenes/GamePlay (SinglePlayer).unity
     guid: ab0cf2e08a60c054ab214a261a87679c
+  - enabled: 1
+    path: Assets/__Project/Scenes/GamePlay (Multiplayer) PHOTON.unity
+    guid: d6c2d88ac8cdf6848b88c231c2b33b69
   m_configObjects: {}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneModel:
     sceneLobby: Player Lobby
-    sceneGameplay: GamePlay Test
+    sceneGameplay: GamePlay (Multiplayer) PHOTON

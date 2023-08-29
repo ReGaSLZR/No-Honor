@@ -105,7 +105,7 @@ namespace ReGaSLZR
             }
         }
 
-        private void OnExitGame()
+        protected void OnExitGame()
         {
             if (localPlayer != null)
             {

@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ReGaSLZR
 {
@@ -20,9 +21,6 @@ namespace ReGaSLZR
         private SpawnPoints spawnPoints;
 
         [SerializeField]
-        private Vector3 poolItemHiddenPosition;
-
-        [SerializeField]
         private uint cratesInPool = 25;
 
         [SerializeField]
@@ -31,13 +29,17 @@ namespace ReGaSLZR
         #endregion //Inspector Fields
 
         private readonly List<PhotonPoolItem> listCrates = new List<PhotonPoolItem>();
-        private int lastIndexInPool = 1;
+        private WaitForSeconds oneSec;
 
         #region Unity Callbacks
 
         protected override void Awake()
         {
+            CheckPhotonReadiness();
             base.Awake();
+
+            oneSec = new WaitForSeconds(1);
+            itemSpawnDelay = new WaitForSeconds(itemSpawnInterval - 1);
             SpawnPooledItems();
         }
 
@@ -61,9 +63,9 @@ namespace ReGaSLZR
         {
             while (characters.Count > 0)
             {
+                yield return oneSec;
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    viewPhoton.RPC("RPC_DoClearItems", RpcTarget.All);
                     DoSpawnPoolItems();
                 }
                 yield return itemSpawnDelay;
@@ -80,64 +82,80 @@ namespace ReGaSLZR
         #region Client Impl
 
         [PunRPC]
-        private void RPC_DoClearItems()
+        private void RPC_ShowPoolItems(int[] ids)
         {
-            Debug.Log($"RPC_DoClearItems");
+            Debug.Log($"RPC_ShowPoolItems");
+            var list = new List<int>();
+            list.AddRange(ids);
             foreach (var item in listCrates)
             {
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    item.transform.position = poolItemHiddenPosition;
-                }
+                item.gameObject.SetActive(list.Contains(item.ViewPhoton.ViewID));
+            }
+        }
 
-                item.gameObject.SetActive(true);
+        private void CheckPhotonReadiness()
+        {
+            if (!PhotonNetwork.IsConnectedAndReady)
+            {
+                viewLoading.SetActive(true);
+                SceneManager.LoadScene(sceneModel.SceneLobby);
             }
         }
 
         private void DoSpawnPoolItems()
         {
             var itemCount = 0;
+            var ids = new List<int>();
+
             while (itemCount < itemSpawnCount)
             {
                 var index = Random.Range(0, listCrates.Count);
 
-                //if (index == lastIndexInPool)
-                //{
-                //    index = ((index + 1) >= listCrates.Count) ? 0 : (index + 1);
-                //}
+                if (!ids.Contains(listCrates[index].ViewPhoton.ViewID))
+                {
+                    ids.Add(listCrates[index].ViewPhoton.ViewID);
 
-                listCrates[index].transform.position =
-                    spawnPoints.GetRandomSpawnPoint().position;
-                listCrates[index].gameObject.SetActive(true);
-                //lastIndexInPool = index;
-                itemCount++;
+                    listCrates[index].transform.position =
+                        spawnPoints.GetRandomSpawnPoint().position;
+                    itemCount++;
+                }
             }
+
+            viewPhoton.RPC("RPC_ShowPoolItems", RpcTarget.All, ids.ToArray());
         }
 
         private void SpawnPooledItems()
         {
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                return;
+            }
+
             uint spawned = 0;
 
             while (spawned < cratesInPool)
             {
                 var index = 0;
 
-                while(index < prefabCrates.Length)
+                while (index < prefabCrates.Length)
                 {
                     var item = PhotonNetwork.InstantiateRoomObject(
-                        prefabCrates[index].name, poolItemHiddenPosition, Quaternion.identity);
-                    item.gameObject.transform.SetParent(gameObject.transform);
+                        prefabCrates[index].name, Vector3.zero, Quaternion.identity);
+                    item.gameObject.SetActive(false);
                     listCrates.Add(item.GetComponent<PhotonPoolItem>());
                     index++;
                 }
-                
+
                 spawned++;
             }
         }
 
         #endregion //Client Impl
 
-        public void RegisterCrate(PhotonPoolItem item) => listCrates.Add(item);
+        public void RegisterCrate(PhotonPoolItem item) {
+            listCrates.Add(item);
+            item.gameObject.SetActive(false);
+        }
 
     }
 

@@ -203,6 +203,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a89739afc75e7a647bc4ccf23dbba30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5390516957820422244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5479538112103547575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!114 &5401287524775014172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,22 +261,6 @@ MonoBehaviour:
   - {fileID: 5479538112703937453}
   - {fileID: 5479538112444020403}
   photonView: {fileID: 8950466638330275013}
---- !u!114 &6436921900025006798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5479538112103547575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e7cb724808c322458aa4d15f5035fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &8950466638330275013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6436921900025006798}
+  - {fileID: 5390516957820422244}
   - {fileID: 7991275929173313028}
   - {fileID: 9004772510976084475}
   sceneViewId: 0

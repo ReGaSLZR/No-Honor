@@ -9,6 +9,8 @@ namespace ReGaSLZR
     public class PhotonItemUser : CharacterItemUser
     {
 
+        #region Inspector Fields
+
         [Header("Photon-specific")]
 
         [SerializeField]
@@ -17,6 +19,10 @@ namespace ReGaSLZR
         [SerializeField]
         private CharacterStats stats;
 
+        #endregion //Inspector Fields
+
+        #region Unity Callbacks
+
         protected override void Start()
         {
             if (photonView.Owner.IsLocal)
@@ -24,6 +30,10 @@ namespace ReGaSLZR
                 base.Start();
             }
         }
+
+        #endregion //Unity Callbacks
+
+        #region Client Impl
 
         [PunRPC]
         private void RPC_ReflectWeaponUsage(string playerId, int weapon)
@@ -88,6 +98,8 @@ namespace ReGaSLZR
                 }
             }
         }
+
+        #endregion //Client Impl
 
     }
 

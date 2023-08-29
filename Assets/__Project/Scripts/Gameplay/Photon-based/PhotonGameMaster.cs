@@ -14,6 +14,9 @@ namespace ReGaSLZR
         [Header("Photon settings")]
 
         [SerializeField]
+        private PhotonView viewPhoton;
+
+        [SerializeField]
         private SpawnPoints spawnPoints;
 
         [SerializeField]
@@ -56,12 +59,11 @@ namespace ReGaSLZR
 
         protected override IEnumerator C_SpawnItems()
         {
-            //return base.C_SpawnItems();
-
             while (characters.Count > 0)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    viewPhoton.RPC("RPC_DoClearItems", RpcTarget.All);
                     DoSpawnPoolItems();
                 }
                 yield return itemSpawnDelay;
@@ -70,28 +72,25 @@ namespace ReGaSLZR
 
         protected override IEnumerator C_ClearItems()
         {
-            //return base.C_ClearItems();
-
-            while (characters.Count > 0)
-            {
-                yield return itemClearDelay;
-
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    DoClearItems();
-                }
-            }
+            yield return null;
         }
 
         #endregion //Protected Virtuals
 
         #region Client Impl
 
-        private void DoClearItems()
+        [PunRPC]
+        private void RPC_DoClearItems()
         {
+            Debug.Log($"RPC_DoClearItems");
             foreach (var item in listCrates)
             {
-                item.transform.position = poolItemHiddenPosition;
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    item.transform.position = poolItemHiddenPosition;
+                }
+
+                item.gameObject.SetActive(true);
             }
         }
 
@@ -102,14 +101,15 @@ namespace ReGaSLZR
             {
                 var index = Random.Range(0, listCrates.Count);
 
-                if (index == lastIndexInPool)
-                {
-                    index = ((index + 1) >= listCrates.Count) ? 0 : (index + 1);
-                }
+                //if (index == lastIndexInPool)
+                //{
+                //    index = ((index + 1) >= listCrates.Count) ? 0 : (index + 1);
+                //}
 
                 listCrates[index].transform.position =
                     spawnPoints.GetRandomSpawnPoint().position;
-                lastIndexInPool = index;
+                listCrates[index].gameObject.SetActive(true);
+                //lastIndexInPool = index;
                 itemCount++;
             }
         }
@@ -126,6 +126,7 @@ namespace ReGaSLZR
                 {
                     var item = PhotonNetwork.InstantiateRoomObject(
                         prefabCrates[index].name, poolItemHiddenPosition, Quaternion.identity);
+                    item.gameObject.transform.SetParent(gameObject.transform);
                     listCrates.Add(item.GetComponent<PhotonPoolItem>());
                     index++;
                 }

@@ -35,7 +35,7 @@ namespace ReGaSLZR
         {
             movt.enabled = false;
             itemUser.enabled = false;
-            itemPicker.enabled = false;
+            //itemPicker.enabled = false;
 
             stats.View.SetIndicatorIsDisplayed(false);
             gameObject.name = Constants.DEFAULT_NPC_NAME;

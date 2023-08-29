@@ -14,42 +14,42 @@ namespace ReGaSLZR
         #region Inspector Fields
 
         [SerializeField]
-        private PlayerHUD viewHud;
+        protected PlayerHUD viewHud;
 
         [SerializeField]
-        private LeaderboardView viewLeaderboard;
+        protected LeaderboardView viewLeaderboard;
 
         [SerializeField]
-        private GameObject viewLoading;
+        protected GameObject viewLoading;
 
         [Space]
 
         [SerializeField]
-        private ObjectPooler itemPool;
+        protected ObjectPooler itemPool;
 
         [Space]
 
         [SerializeField]
         [Tooltip("The delay is to wait for the Start() in the Character to be done first.")]
         [Range(0, 10)]
-        private uint frameDelayRegister = 1;
+        protected uint frameDelayRegister = 1;
 
         [SerializeField]
         [Range(10, 30)]
-        private uint itemSpawnsClearInterval;
+        protected uint itemSpawnsClearInterval;
 
         [SerializeField]
         [Range(0, 10)]
-        private uint itemSpawnInterval;
+        protected uint itemSpawnInterval;
 
         [SerializeField]
         [Range(1, 10)]
-        private uint itemSpawnCount;
+        protected uint itemSpawnCount;
 
         #endregion //Inspector Fields
 
         [Inject]
-        private readonly SceneModel sceneModel;
+        protected readonly SceneModel sceneModel;
 
         protected readonly List<Character> characters = new List<Character>();
         protected Character localPlayer;
@@ -59,7 +59,7 @@ namespace ReGaSLZR
 
         #region Unity Callbacks
 
-        private void Awake()
+        protected virtual void Awake()
         {
             itemSpawnDelay = new WaitForSeconds(itemSpawnInterval);
             itemClearDelay = new WaitForSeconds(itemSpawnsClearInterval);
@@ -81,7 +81,7 @@ namespace ReGaSLZR
 
         #region Client Impl
 
-        private IEnumerator C_SpawnItems()
+        protected virtual IEnumerator C_SpawnItems()
         { 
             while(characters.Count > 0)
             {
@@ -96,7 +96,7 @@ namespace ReGaSLZR
             }
         }
 
-        private IEnumerator C_ClearItems()
+        protected virtual IEnumerator C_ClearItems()
         {
             while (characters.Count > 0)
             {

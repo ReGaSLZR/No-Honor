@@ -132,7 +132,10 @@ namespace ReGaSLZR
             var destination = new Vector2(healthChangeRectPositionX, healthChangePositionY.y);
             var timeElapsed = 0f;
 
-            textHealthChange.color = (healthChange>=0) ? colorHealthRegen : colorHealthDamage;
+            textHealthChange.color = 
+                //(healthChange>=0) ? colorHealthRegen : 
+                colorHealthDamage;
+
             textHealthChange.CrossFadeAlpha(1f, 0f, true);
             textHealthChange.text = healthChange.ToString();
 

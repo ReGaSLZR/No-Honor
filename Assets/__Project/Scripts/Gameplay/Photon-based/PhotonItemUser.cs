@@ -22,32 +22,49 @@ namespace ReGaSLZR
             if (photonView.Owner.IsLocal)
             {
                 base.Start();
+            }
+        }
 
-                this.UpdateAsObservable()
-                    .Where(_ => cachedWeaponOnUse != null)
-                    .Where(_ => !cachedWeaponOnUse.IsInUse().Value)
-                    .Where(_ => stats.Model.Value.weapon != Weapon.None)
-                    .Subscribe(_ => stats.UpdateWeapon(Weapon.None))
-                    .AddTo(this);
+        [PunRPC]
+        private void RPC_ReflectWeaponUsage(string playerId, int weapon)
+        {
+            Debug.Log($"{GetType().Name}.RPC_ReflectWeaponUsage()", gameObject);
 
-                this.UpdateAsObservable()
-                    .Where(_ => (cachedWeaponOnUse != null) 
-                            && cachedWeaponOnUse.IsInUse().Value)
-                    .Where(_ => stats.Model.Value.weapon == Weapon.None)
-                    .Subscribe(_ => stats.UpdateWeapon(cachedWeaponOnUse.WeaponType))
-                    .AddTo(this);
+            if (!playerId.Equals(photonView.Owner.UserId))
+            {
+                return;
+            }
+
+            var wea = (Weapon)weapon;
+            if (wea == Weapon.None)
+            {
+                DisableAllWeapons();
             }
             else
             {
-                stats.Model
-                    .Where(model => model.weapon == Weapon.None)
-                    .Subscribe(model => DisableAllWeapons())
-                    .AddTo(this);
+                EnableWeapon(wea);
+            }
+        }
 
-                stats.Model
-                    .Where(model => model.weapon != Weapon.None)
-                    .Subscribe(model => EnableWeapon(model.weapon))
-                    .AddTo(this);
+        protected override void SetUpWeponTargetDetection()
+        {
+            base.SetUpWeponTargetDetection();
+
+            if (photonView.Owner.IsLocal) 
+            {
+                cachedWeaponOnUse.IsInUse()
+                    .Where(inUse => inUse)
+                    .Subscribe(_ => photonView.RPC("RPC_ReflectWeaponUsage",
+                        RpcTarget.Others, photonView.Owner.UserId, 
+                        (int) cachedWeaponOnUse.WeaponType))
+                    .AddTo(disposables);
+
+                cachedWeaponOnUse.IsInUse()
+                    .Where(inUse => !inUse)
+                    .Subscribe(_ => photonView.RPC("RPC_ReflectWeaponUsage",
+                        RpcTarget.Others, photonView.Owner.UserId,
+                        (int)Weapon.None))
+                    .AddTo(disposables);
             }
         }
 

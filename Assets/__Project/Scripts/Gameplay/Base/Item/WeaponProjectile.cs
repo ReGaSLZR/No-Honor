@@ -73,7 +73,7 @@ namespace ReGaSLZR
 
             viewOnImpact.SetActive(false);
             gameObject.SetActive(false);
-            rIsInUse.Value = false;
+            rIsInUse.SetValueAndForceNotify(false);
         }
 
         #endregion //Overrides
@@ -94,7 +94,7 @@ namespace ReGaSLZR
             {
                 viewOnImpact.SetActive(false);
                 gameObject.SetActive(false);
-                rIsInUse.Value = false;
+                rIsInUse.SetValueAndForceNotify(false);
             }
         }
 
@@ -107,12 +107,13 @@ namespace ReGaSLZR
             viewNormal.SetActive(true);
             viewOnImpact.SetActive(false);
             gameObject.SetActive(true);
+            rIsInUse.SetValueAndForceNotify(true);
 
             var direction = new Vector2(fireDirection.x * 
                 (spriteForDirection.flipX ? -1f : 1f), fireDirection.y);
             rigidBody2D.AddForce(direction * force, ForceMode2D.Impulse);
             rigidBody2D.AddTorque(torque);
-            rIsInUse.Value = true;
+
         }
 
         #endregion //Public API

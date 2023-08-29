@@ -102,7 +102,7 @@ namespace ReGaSLZR
             UseWeapon(weaponToUse);
         }
 
-        private void SetUpWeponTargetDetection()
+        protected virtual void SetUpWeponTargetDetection()
         {
             cachedWeaponUseTimeEnd = 0f;
 

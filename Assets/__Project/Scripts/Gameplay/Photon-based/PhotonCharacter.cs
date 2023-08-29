@@ -51,7 +51,7 @@ namespace ReGaSLZR
         [PunRPC]
         private void RPC_PlayerCopyPropertiesUpdate(string playerId)
         {
-            Debug.Log($"{GetType().Name}.RPC_PlayerCopyPropertiesUpdate()", gameObject);
+            Debug.Log($"RPC_PlayerCopyPropertiesUpdate()", gameObject);
 
             if (!playerId.Equals(photonView.Owner.UserId))
             {

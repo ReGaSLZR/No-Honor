@@ -19,7 +19,7 @@ namespace ReGaSLZR
         protected override void Use()
         {
             gameObject.SetActive(true);
-            rIsInUse.Value = true;
+            rIsInUse.SetValueAndForceNotify(true);
             StopAllCoroutines();
             StartCoroutine(C_ActiveCountdown());
         }
@@ -27,7 +27,7 @@ namespace ReGaSLZR
         public override void Deactivate()
         {
             gameObject.SetActive(false);
-            rIsInUse.Value = false;
+            rIsInUse.SetValueAndForceNotify(false);
         }
 
         protected override bool ShouldDeactivateOnCollision() => false;

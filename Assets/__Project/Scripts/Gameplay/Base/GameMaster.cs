@@ -51,11 +51,11 @@ namespace ReGaSLZR
         [Inject]
         private readonly SceneModel sceneModel;
 
-        private readonly List<Character> characters = new List<Character>();
-        private Character localPlayer;
+        protected readonly List<Character> characters = new List<Character>();
+        protected Character localPlayer;
 
-        private WaitForSeconds itemSpawnDelay;
-        private WaitForSeconds itemClearDelay;
+        protected WaitForSeconds itemSpawnDelay;
+        protected WaitForSeconds itemClearDelay;
 
         #region Unity Callbacks
 
@@ -195,8 +195,11 @@ namespace ReGaSLZR
 
         public void RegisterCharacter(Character character, bool isBot)
         {
-            characters.Add(character);
-            StartCoroutine(C_DelayedSetUpOfCharacter(character, isBot));
+            if (!characters.Contains(character)) 
+            {
+                characters.Add(character);
+                StartCoroutine(C_DelayedSetUpOfCharacter(character, isBot));
+            }
         }
 
         #endregion //Public API

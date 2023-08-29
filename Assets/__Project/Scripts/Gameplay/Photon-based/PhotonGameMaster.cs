@@ -1,4 +1,6 @@
 using Photon.Pun;
+using System.Collections;
+using UnityEngine;
 
 namespace ReGaSLZR
 {

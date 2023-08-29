@@ -32,11 +32,29 @@ namespace ReGaSLZR
                 .Where(_ => photonView.Owner.IsLocal)
                 .Subscribe(UpdatePhotonModelToCopies)
                 .AddTo(this);
+
+            SelfRegisterToGameMaster();
         }
 
         #endregion //Unity Callbacks
 
         #region Client Impl
+
+        private void SelfRegisterToGameMaster()
+        {
+            if (photonView.Owner.IsLocal)
+            {
+                return;
+            }
+
+            var master = FindObjectOfType<GameMaster>();
+            if (master == null)
+            {
+                return;
+            }
+
+            master.RegisterCharacter(this, true);
+        }
 
         private void UpdatePhotonModelToLocal(bool shouldAnimateDamageFX = false) 
             => stats.UpdateModel(photonView.Owner.GetPlayerModel(), shouldAnimateDamageFX);

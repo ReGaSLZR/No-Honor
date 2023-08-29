@@ -5,7 +5,7 @@ namespace ReGaSLZR
 {
 
     public class PhotonCharacterSpawner : CharacterSpawner
-    {
+    { 
 
         #region Protected Virtuals
 

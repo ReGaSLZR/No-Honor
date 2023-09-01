@@ -23,6 +23,7 @@ namespace ReGaSLZR
         protected CharacterItemUser itemUser;
 
         [SerializeField]
+        [Tooltip("Detectors to disable. NOT enable.")]
         protected TargetDetector[] targetDetectors;
 
         #endregion //Inspector Fields

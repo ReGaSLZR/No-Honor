@@ -553,12 +553,7 @@ MonoBehaviour:
   stats: {fileID: 3843575212101096173}
   itemPicker: {fileID: 7652384364750723426}
   itemUser: {fileID: 4389018451890831435}
-  targetDetectors:
-  - {fileID: 7652384366081703581}
-  - {fileID: 7652384364714031143}
-  - {fileID: 7652384364931026871}
-  - {fileID: 7652384364259663989}
-  - {fileID: 7652384364552875371}
+  targetDetectors: []
 --- !u!114 &7652384364750723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
